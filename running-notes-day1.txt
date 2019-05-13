@@ -8,3 +8,67 @@ docker/tcuser
 $ export PS1='$PWD> '
 /home/docker>
 
+login as: docker
+docker@192.168.99.124's password:
+                         _             _
+            _         _ ( )           ( )
+  ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __
+/' _ ` _ `\| |/' _ `\| || , <  ( ) ( )| '_`\  /'__`\
+| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+
+$ export PS1='$PWD> '
+/home/docker> ps -ef | grep dockerd
+root      2420     1  6 05:03 ?        00:08:08 /usr/bin/dockerd -H tcp://0.0.0.0:2376 -H unix:///var/run/docker.sock --tlsverify --tlscacert /etc/docker/ca.pem --tlscert /etc/docker/server.pem --tlskey /etc/docker/server-key.pem --label provider=virtualbox --insecure-registry 10.96.0.0/12
+docker   30748 21795  0 07:00 pts/0    00:00:00 grep dockerd
+/home/docker> uname -a
+Linux minikube 4.9.64 #1 SMP Tue Jan 23 23:15:00 UTC 2018 x86_64 GNU/Linux
+/home/docker> ls /etc/
+.updated           hosts              mtab               ssl/
+VERSION            init.d/            netconfig          sudoers
+X11/               inputrc            nfsmount.conf      sudoers.d/
+bash_completion.d/ iproute2/          nsswitch.conf      sudoers.dist
+cni/               issue              os-release         sysconfig/
+containers/        kernel/            passwd             sysctl.d/
+crio/              kubernetes/        profile            systemd/
+dbus-1/            lfs-release        profile.d/         timezone
+docker/            localtime          protocols          tmpfiles.d/
+ethertypes         lvm/               resolv.conf        udev/
+exports            machine-id         rkt/               vmware-tools/
+fstab              mke2fs.conf        services           xdg/
+group              modules-load.d/    shadow
+hostname           motd               ssh/
+/home/docker> ls /etc/os-release
+/etc/os-release
+/home/docker> cat /etc/os-release
+NAME=Buildroot
+VERSION=2017.11
+ID=buildroot
+VERSION_ID=2017.11
+PRETTY_NAME="Buildroot 2017.11"
+/home/docker> uname -a
+Linux minikube 4.9.64 #1 SMP Tue Jan 23 23:15:00 UTC 2018 x86_64 GNU/Linux
+/home/docker>
+/home/docker> docker version
+Client:
+ Version:      17.09.0-ce
+ API version:  1.32
+ Go version:   go1.8.3
+ Git commit:   afdb6d4
+ Built:        Tue Sep 26 22:39:28 2017
+ OS/Arch:      linux/amd64
+
+Server:
+ Version:      17.09.0-ce
+ API version:  1.32 (minimum version 1.12)
+ Go version:   go1.8.3
+ Git commit:   afdb6d4
+ Built:        Tue Sep 26 22:45:38 2017
+ OS/Arch:      linux/amd64
+ Experimental: false
+/home/docker> ps -ef | grep dockerd
+docker    1681 21795  0 07:17 pts/0    00:00:00 grep dockerd
+root      2420     1  7 05:03 ?        00:09:23 /usr/bin/dockerd -H tcp://0.0.0.0:2376 -H unix:///var/run/docker.sock --tlsverify --tlscacert /etc/docker/ca.pem --tlscert /etc/docker/server.pem --tlskey /etc/docker/server-key.pem --label provider=virtualbox --insecure-registry 10.96.0.0/12
+/home/docker>
+
+---------------------------------------------------------------------------------------------------------------
