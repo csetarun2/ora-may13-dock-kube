@@ -1,0 +1,6 @@
+1. C:\Users\Dell lap>minikube ip
+192.168.99.124
+
+2. login using putty to 192.168.99.124
+docker/tcuser
+
