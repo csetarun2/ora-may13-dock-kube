@@ -72,3 +72,127 @@ root      2420     1  7 05:03 ?        00:09:23 /usr/bin/dockerd -H tcp://0.0.0.
 /home/docker>
 
 ---------------------------------------------------------------------------------------------------------------
+
+
+login as: docker
+docker@192.168.99.125's password:
+                         _             _
+            _         _ ( )           ( )
+  ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __
+/' _ ` _ `\| |/' _ `\| || , <  ( ) ( )| '_`\  /'__`\
+| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+
+$ export PS1='$PWD> '
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED              STATUS              PORTS                                                                NAMES
+/home/docker> docker container run nginx
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+/home/docker> docker container ls -a | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS                       PORTS                                                                NAMES
+7623457bfee6        nginx                                                            "nginx -g 'daemon ..."   5 minutes ago       Exited (0) 56 seconds ago                                                                         thirsty_hopper
+9854926f0a12        nginx                                                            "nginx -g 'daemon ..."   About an hour ago   Exited (255) 8 minutes ago   80/tcp                                                               brave_wescoff
+8705687a7329        ghost:1-alpine                                                   "docker-entrypoint..."   2 weeks ago         Exited (137) 2 weeks ago     0.0.0.0:9999->2368/tcp                                               blog-ghost
+2a1b719fd653        mysql:5.7                                                        "docker-entrypoint..."   2 weeks ago         Exited (137) 2 weeks ago     3306/tcp, 33060/tcp                                                  blog-db
+4a3d8eb58ef3        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (255) 2 weeks ago                                                                          c3
+42fa77b82562        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (137) 2 weeks ago                                                                          c2
+7139e88b2ad0        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (137) 2 weeks ago                                                                          c1
+/home/docker> docker container start 7623457bfee6
+7623457bfee6
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+7623457bfee6        nginx                                                            "nginx -g 'daemon ..."   6 minutes ago       Up 7 seconds        80/tcp                                                               thirsty_hopper
+/home/docker> docker container run -d nginx
+be5de96d6a78cecc88d211dfc727aa8ba1b54961b294b667678b22a752f7b546
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+be5de96d6a78        nginx                                                            "nginx -g 'daemon ..."   30 seconds ago      Up 30 seconds       80/tcp                                                               boring_rosalind
+7623457bfee6        nginx                                                            "nginx -g 'daemon ..."   9 minutes ago       Up 3 minutes        80/tcp                                                               thirsty_hopper
+/home/docker> docker container stop be5d
+be5d
+/home/docker> docker container ls -a| grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED              STATUS                        PORTS                                                                NAMES
+be5de96d6a78        nginx                                                            "nginx -g 'daemon ..."   About a minute ago   Exited (0) 7 seconds ago                                                                           boring_rosalind
+7623457bfee6        nginx                                                            "nginx -g 'daemon ..."   10 minutes ago       Up 4 minutes                  80/tcp                                                               thirsty_hopper
+9854926f0a12        nginx                                                            "nginx -g 'daemon ..."   About an hour ago    Exited (255) 12 minutes ago   80/tcp                                                               brave_wescoff
+8705687a7329        ghost:1-alpine                                                   "docker-entrypoint..."   2 weeks ago          Exited (137) 2 weeks ago      0.0.0.0:9999->2368/tcp                                               blog-ghost
+2a1b719fd653        mysql:5.7                                                        "docker-entrypoint..."   2 weeks ago          Exited (137) 2 weeks ago      3306/tcp, 33060/tcp                                                  blog-db
+4a3d8eb58ef3        al-ap                                                            "/bin/docker-entry..."   2 weeks ago          Exited (255) 2 weeks ago                                                                           c3
+42fa77b82562        al-ap                                                            "/bin/docker-entry..."   2 weeks ago          Exited (137) 2 weeks ago                                                                           c2
+7139e88b2ad0        al-ap                                                            "/bin/docker-entry..."   2 weeks ago          Exited (137) 2 weeks ago                                                                           c1
+/home/docker> docker container rm be5de96d6a78
+be5de96d6a78
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+7623457bfee6        nginx                                                            "nginx -g 'daemon ..."   10 minutes ago      Up 4 minutes        80/tcp                                                               thirsty_hopper
+/home/docker> docker container ls -a| grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS                        PORTS                                                                NAMES
+7623457bfee6        nginx                                                            "nginx -g 'daemon ..."   10 minutes ago      Up 4 minutes                  80/tcp                                                               thirsty_hopper
+9854926f0a12        nginx                                                            "nginx -g 'daemon ..."   About an hour ago   Exited (255) 13 minutes ago   80/tcp                                                               brave_wescoff
+8705687a7329        ghost:1-alpine                                                   "docker-entrypoint..."   2 weeks ago         Exited (137) 2 weeks ago      0.0.0.0:9999->2368/tcp                                               blog-ghost
+2a1b719fd653        mysql:5.7                                                        "docker-entrypoint..."   2 weeks ago         Exited (137) 2 weeks ago      3306/tcp, 33060/tcp                                                  blog-db
+4a3d8eb58ef3        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (255) 2 weeks ago                                                                           c3
+42fa77b82562        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (137) 2 weeks ago                                                                           c2
+7139e88b2ad0        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (137) 2 weeks ago                                                                           c1
+/home/docker> docker container rm 7623457bfee6
+Error response from daemon: You cannot remove a running container 7623457bfee66d61c44be5ac566b373807c0f559dd8b1ff8c193336ffb6484b9. Stop the container before attempting removal or force remove
+/home/docker> docker container rm -f 7623457bfee6
+7623457bfee6
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+/home/docker> docker container ls -a| grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS                        PORTS                                                                NAMES
+9854926f0a12        nginx                                                            "nginx -g 'daemon ..."   About an hour ago   Exited (255) 14 minutes ago   80/tcp                                                               brave_wescoff
+8705687a7329        ghost:1-alpine                                                   "docker-entrypoint..."   2 weeks ago         Exited (137) 2 weeks ago      0.0.0.0:9999->2368/tcp                                               blog-ghost
+2a1b719fd653        mysql:5.7                                                        "docker-entrypoint..."   2 weeks ago         Exited (137) 2 weeks ago      3306/tcp, 33060/tcp                                                  blog-db
+4a3d8eb58ef3        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (255) 2 weeks ago                                                                           c3
+42fa77b82562        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (137) 2 weeks ago                                                                           c2
+7139e88b2ad0        al-ap                                                            "/bin/docker-entry..."   2 weeks ago         Exited (137) 2 weeks ago                                                                           c1
+/home/docker> docker container prune
+WARNING! This will remove all stopped containers.
+Are you sure you want to continue? [y/N] y
+Deleted Containers:
+9854926f0a12d1771c58d4acac897802d2a14c0a29b477994d33f331144951de
+a29dadbc936610bce6f93102ca7283330dade6aaf80cf22631a14046de463c99
+f38ddc68adad4aa8496fe6b98ab6b6ac6a56169761d2f1e2bdef6975a4715197
+643cd7d5261fc9b4bb2ba613bf823243a1209e05712d6b908310616dc6459dc9
+19ab6159509c4e3aacdfdcca788081b934044928acd8751bcd11e546e66686de
+590ffafcd6358398fc99519ba06612699315613718671a0311fcdfd1207b37c3
+b82483bf687841e52cbd4d9f9b0167ec3c7a31265943109f2c6bd398e970c991
+27d51784f7a8d2e3f04471605675a3b4ef93a345e9e0b67f3c5706c4cea017af
+b891d78c232e3acb398454fb017c6eb9c71251ec2149d841cc4438063b1f0fda
+8e34c8b17274392fd6630e5afb217d8c0cbd8edc1bc95922ae4b47068ddb5d88
+fddc34ab2fed74f49ea272afc776128bec92f8f61dfdba5c908aaccacb06b992
+301e476c2b5493aa095fc46379f7deab2a149f01f8f4341555c2e5644e90628c
+a949729566e44fb5ab0dc58c6c31e4bb0549cc1b48ab26c2b8d97ab7fcc0f1f5
+a6631e587118335f4d4f3cef4330035613556c3797216bed323b7d29fb130e5b
+8dafbdf4af4abe37ea1a2c3ad23ebe25729e64f83bd98d3b7ccd7aea3f441d0c
+435c92f525e3668e7d63b323bfd9e9c86817349955d09142d7f84fde341b33bb
+bb9a93822c08eec11546d51d35277ce7d0f5dc6dc3a0e84916fb0c19a25ba66e
+2935f4e4899e53dbbc761926ce2b5f9fd47e5282c338988b53839793f931bea5
+4c200ff5583d69d401b16c85170cecef173efd73a58f1438d60f89ec0e350d22
+2776153961cedac43f9e635931d047c58bac2c4085189841a1c5b2142df00c59
+3b1a1a98537036316a4ac16538ebdd71b1b7ed4d4606bb7ca00acfade217e885
+4552c9059062c77418a0045c55d4d4c1443f7834df3c3aac8eaa74e8a65dc78c
+02d9ca65457cd9cd943ceb7885b1ae986d7cd7c9f7ce07317e40c382ab94d1aa
+96eadec7d07c14fbcaf1ffdd68623e7d2ba66e451bb37abdae49981ce5c3e9d8
+f67a32704d09901271c6b23eb368bafb5b7a016d443633d424df30a4b22b24f2
+3fe63992e10b9740834c640dcfe2d2ce57f95d9f6cc559a80159452d6eefda33
+15d8e576db196f9bfc3d22648bb34b02b5d2cd03611faa5d3d025431e389cf62
+3dc204ba68842a08d6b649daad978a6f8ad5e05bacb1b14c5abe9d8dbcdda3d1
+9e3417c55ff59536918c7ff5a33b5138903363c3cbc2750d928272dfbdf9b49a
+d87f1a0fd5e0017156a928b5d8fa67f176e1fc29c0fb0ffceee4d4bda5bb6925
+8705687a732909e1e987668309dd22bb889ff98eb16294eaa97850bab80fb3fc
+2a1b719fd653aa08c636690ca5cf621ca872d597f682646337b8d83313544977
+4a3d8eb58ef325176af6f78ea0c829992be82959230488821d64fdcffedec3a3
+42fa77b82562478ed8c76f6a435e06d9ec5edf6a9e6ffb692c91bb992e0a18ba
+7139e88b2ad0d26b0d57c682bd28e82326453672218181ab843d999d75c9ffbf
+
+Total reclaimed space: 1.626MB
+/home/docker>
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+/home/docker> docker container ls -a| grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+/home/docker>
