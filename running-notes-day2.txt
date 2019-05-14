@@ -1051,3 +1051,89 @@ CMD ["httpd", "-D", "FOREGROUND"]
 
 # docker-entrypoint.sh httpd -D FOREGROUND
 /c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+
+------------------------------------------------------------------------------------------------------
+
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container run --rm
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=6b5a253a7efc
+HOME=/root
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container run -e MYVAR=HELLO --rm alpine env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=e6b63fe66da9
+MYVAR=HELLO
+HOME=/root
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi docker-entrypoint.sh
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat docker-entrypoint.sh
+#!/bin/sh
+
+sed -i "s/Listen 80/Listen ${APACHE_PORT}/" /etc/apache2/httpd.conf
+exec "$@"
+
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+COPY docker-entrypoint.sh /bin
+RUN chmod +x /bin/docker-entrypoint.sh
+ENV APACHE_PORT 80
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+
+# docker-entrypoint.sh httpd -D FOREGROUND
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image build -t alpine-apache:4 -t alpine-apache:latest .
+Sending build context to Docker daemon  4.096kB
+Step 1/8 : FROM alpine
+ ---> 055936d39205
+Step 2/8 : RUN apk update
+ ---> Using cache
+ ---> 7a760431b7a5
+Step 3/8 : RUN apk add apache2
+ ---> Using cache
+ ---> a366e27732b0
+Step 4/8 : COPY docker-entrypoint.sh /bin
+ ---> e61a761ec9b9
+Step 5/8 : RUN chmod +x /bin/docker-entrypoint.sh
+ ---> Running in 6a3401d563b0
+ ---> 0f6887718fd7
+Removing intermediate container 6a3401d563b0
+Step 6/8 : ENV APACHE_PORT 80
+ ---> Running in 24b28959e9f6
+ ---> 14d84c7a839a
+Removing intermediate container 24b28959e9f6
+Step 7/8 : ENTRYPOINT docker-entrypoint.sh
+ ---> Running in b74d7f58d2c3
+ ---> 6324145dbc66
+Removing intermediate container b74d7f58d2c3
+Step 8/8 : CMD httpd -D FOREGROUND
+ ---> Running in d9ee6c3c14d0
+ ---> 3d74b5836fc8
+Removing intermediate container d9ee6c3c14d0
+Successfully built 3d74b5836fc8
+Successfully tagged alpine-apache:4
+Successfully tagged alpine-apache:latest
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+a073b70cfd57        c5632e446e10                                                     "docker-entrypoint..."   20 minutes ago      Up 20 minutes       0.0.0.0:9090->8989/tcp                                               friendly_haibt
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container rm -f a073b70cfd57
+a073b70cfd57
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container run -d -p 9090:80 alpine-apache
+3c1c23bee3003a9869861a451c224c1c54deb7336faace46779a9709bf17f8fc
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container exec 3c1c23b env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=3c1c23bee300
+APACHE_PORT=80
+HOME=/root
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container run -d -p 9191:9090 -e APACHE_PORT=9090 alpine-apache
+85c1f30ffcc73531140d458f31fba37772632656e5dd1a462d96f5c118962933
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container exec 85c1f env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=85c1f30ffcc7
+APACHE_PORT=9090
+HOME=/root
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
