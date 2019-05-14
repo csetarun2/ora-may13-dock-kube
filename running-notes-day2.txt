@@ -1,0 +1,354 @@
+/home/docker>
+/home/docker> sudo su
+/home/docker> id
+uid=0(root) gid=0(root) groups=0(root)
+/home/docker> cd /var/lib/docker/image/
+/var/lib/docker/image> ls
+overlay2
+/var/lib/docker/image> cd overlay2/
+/var/lib/docker/image/overlay2> ls
+distribution  imagedb  layerdb  repositories.json
+/var/lib/docker/image/overlay2> exit
+exit
+/home/docker> docker image ls
+REPOSITORY                                                       TAG                                 IMAGE ID            CREATED             SIZE
+nginx-code                                                       latest                              e3ded42bb607        17 hours ago        128MB
+nginx                                                            latest                              53f3fd8007f7        6 days ago          109MB
+al-ap                                                            4                                   556f314bf7b8        2 weeks ago         10.4MB
+al-ap                                                            latest                              556f314bf7b8        2 weeks ago         10.4MB
+al-ap                                                            3                                   aa3e7d5ab7f3        2 weeks ago         10.4MB
+pinger                                                           latest                              31f725ab3a9f        2 weeks ago         5.53MB
+al-ap-code                                                       1                                   a2ba56476437        2 weeks ago         10.4MB
+al-ap-code                                                       latest                              a2ba56476437        2 weeks ago         10.4MB
+al-ap                                                            2                                   461aaf2c4f95        3 weeks ago         10.4MB
+al-ap                                                            1                                   7c4b82037936        3 weeks ago         10.4MB
+nginx-ping                                                       latest                              97b86eaae4b0        3 weeks ago         128MB
+ghost                                                            1-alpine                            4abc9252ae1c        3 weeks ago         451MB
+alpine                                                           latest                              cdf98d1859c1        4 weeks ago         5.53MB
+app                                                              2                                   e522da5916d4        4 weeks ago         10.4MB
+app                                                              latest                              e522da5916d4        4 weeks ago         10.4MB
+mjsharma/alpine-apache                                           latest                              90613115ce14        4 weeks ago         10.4MB
+alpine-apache                                                    1                                   6bc6fde545ce        4 weeks ago         10.4MB
+alpine-apache                                                    3                                   6bc6fde545ce        4 weeks ago         10.4MB
+alpine-apache                                                    latest                              6bc6fde545ce        4 weeks ago         10.4MB
+adityaprabhakara/alpine-apache                                   latest                              6bc6fde545ce        4 weeks ago         10.4MB
+app                                                              1                                   3cf5bde5928d        4 weeks ago         10.4MB
+alpine-apache                                                    2                                   21e2fa39c4df        4 weeks ago         10.4MB
+<none>                                                           <none>                              3a28bc5f6561        5 weeks ago         128MB
+mysql                                                            5.7                                 98455b9624a9        6 weeks ago         372MB
+nginx                                                            <none>                              2bcb04bdb83f        6 weeks ago         109MB
+alpine                                                           3.8                                 dac705114996        2 months ago        4.41MB
+alpine                                                           3.9                                 5cb3aa00f899        2 months ago        5.53MB
+tomcat                                                           7.0                                 bf7d94e5177f        2 months ago        359MB
+gcr.io/kubernetes-helm/tiller                                    v2.13.0-rc.1                        3df95e340abd        2 months ago        82.1MB
+k8s.gcr.io/heapster-amd64                                        v1.5.3                              f57c75cd7b0a        12 months ago       75.3MB
+prom/prometheus                                                  v2.1.0                              c8ecf7c719c1        15 months ago       112MB
+gcr.io/google_containers/metrics-server-amd64                    v0.2.1                              9801395070f3        16 months ago       42.5MB
+k8s.gcr.io/kubernetes-dashboard-amd64                            v1.8.1                              e94d2f21bc0c        17 months ago       121MB
+k8s.gcr.io/heapster-amd64                                        v1.5.0                              86a0ddc3a8c2        17 months ago       75.3MB
+quay.io/kubernetes-ingress-controller/nginx-ingress-controller   0.9.0                               e56d6a14283a        17 months ago       190MB
+gcr.io/google-containers/kube-addon-manager                      v6.5                                d166ffa9201a        18 months ago       79.5MB
+k8s.gcr.io/defaultbackend                                        1.4                                 846921f0fe0e        18 months ago       4.84MB
+k8s.gcr.io/k8s-dns-sidecar-amd64                                 1.14.5                              fed89e8b4248        19 months ago       41.8MB
+k8s.gcr.io/k8s-dns-kube-dns-amd64                                1.14.5                              512cd7425a73        19 months ago       49.4MB
+k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64                           1.14.5                              459944ce8cc4        19 months ago       41.4MB
+k8s.gcr.io/heapster-influxdb-amd64                               v1.3.3                              577260d221db        20 months ago       12.5MB
+k8s.gcr.io/heapster-grafana-amd64                                v4.4.3                              8cb3de219af7        20 months ago       152MB
+gcr.io/google_containers/pause-amd64                             3.0                                 99e59f495ffa        3 years ago         747kB
+gcr.io/google_containers/hpa-example                             latest                              4ca4c13a6d7c        3 years ago         481MB
+ananwaresystems/webarchive                                       1.0                                 cf8d36136662        3 years ago         2.44MB
+/home/docker>
+/home/docker> docker image ls nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED                             SIZE
+nginx               latest              53f3fd8007f7        6 days ago                          109MB
+nginx               <none>              2bcb04bdb83f        6 weeks ago                         109MB
+/home/docker> docker image ls nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               latest              53f3fd8007f7        6 days ago          109MB
+nginx               <none>              2bcb04bdb83f        6 weeks ago         109MB
+/home/docker> docker image ls nginx-code
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx-code          latest              e3ded42bb607        17 hours ago        128MB
+/home/docker> docker image history nginx
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+53f3fd8007f7        6 days ago          /bin/sh -c #(nop)  CMD ["nginx" "-g" "daem...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  STOPSIGNAL SIGTERM           0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  EXPOSE 80                    0B      
+<missing>           6 days ago          /bin/sh -c ln -sf /dev/stdout /var/log/ngi...   22B     
+<missing>           6 days ago          /bin/sh -c set -x  && apt-get update  && a...   54.1MB  
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV NJS_VERSION=1.15.12...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV NGINX_VERSION=1.15....   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  LABEL maintainer=NGINX ...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  CMD ["bash"]                 0B      
+<missing>           6 days ago          /bin/sh -c #(nop) ADD file:fcb9328ea4c1156...   55.3MB  
+/home/docker> docker image hitory nginx-code
+
+Usage:  docker image COMMAND
+
+Manage images
+
+Options:
+      --help   Print usage
+
+Commands:
+  build       Build an image from a Dockerfile
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Display detailed information on one or more images
+  load        Load an image from a tar archive or STDIN
+  ls          List images
+  prune       Remove unused images
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rm          Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
+Run 'docker image COMMAND --help' for more information on a command.
+/home/docker> docker image history nginx
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+53f3fd8007f7        6 days ago          /bin/sh -c #(nop)  CMD ["nginx" "-g" "daem...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  STOPSIGNAL SIGTERM           0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  EXPOSE 80                    0B      
+<missing>           6 days ago          /bin/sh -c ln -sf /dev/stdout /var/log/ngi...   22B     
+<missing>           6 days ago          /bin/sh -c set -x  && apt-get update  && a...   54.1MB  
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV NJS_VERSION=1.15.12...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV NGINX_VERSION=1.15....   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  LABEL maintainer=NGINX ...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  CMD ["bash"]                 0B      
+<missing>           6 days ago          /bin/sh -c #(nop) ADD file:fcb9328ea4c1156...   55.3MB  
+/home/docker> docker image history nginx-code
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+e3ded42bb607        17 hours ago        nginx -g daemon off;                            19MB    
+53f3fd8007f7        6 days ago          /bin/sh -c #(nop)  CMD ["nginx" "-g" "daem...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  STOPSIGNAL SIGTERM           0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  EXPOSE 80                    0B      
+<missing>           6 days ago          /bin/sh -c ln -sf /dev/stdout /var/log/ngi...   22B     
+<missing>           6 days ago          /bin/sh -c set -x  && apt-get update  && a...   54.1MB  
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV NJS_VERSION=1.15.12...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  ENV NGINX_VERSION=1.15....   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  LABEL maintainer=NGINX ...   0B      
+<missing>           6 days ago          /bin/sh -c #(nop)  CMD ["bash"]                 0B      
+<missing>           6 days ago          /bin/sh -c #(nop) ADD file:fcb9328ea4c1156...   55.3MB  
+/home/docker> docker image inspect nginx
+[
+    {
+        "Id": "sha256:53f3fd8007f76bd23bf663ad5f5009c8941f63828ae458cef584b5f85dc0a7bf",
+        "RepoTags": [
+            "nginx:latest"
+        ],
+        "RepoDigests": [
+            "nginx@sha256:23b4dcdf0d34d4a129755fc6f52e1c6e23bb34ea011b315d87e193033bcd1b68"
+        ],
+        "Parent": "",
+        "Comment": "",
+        "Created": "2019-05-08T03:01:41.947151778Z",
+        "Container": "5ca24387c7f9c2fe13feb6097196957920a7f9a4616389399329ff50d6bd2d25",
+        "ContainerConfig": {
+            "Hostname": "5ca24387c7f9",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "80/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NGINX_VERSION=1.15.12-1~stretch",
+                "NJS_VERSION=1.15.12.0.3.1-1~stretch"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ",
+                "CMD [\"nginx\" \"-g\" \"daemon off;\"]"
+            ],
+            "ArgsEscaped": true,
+            "Image": "sha256:1ffdb2ba66de7315612351681f6c94d083826a72f81d9b1ee418b26f0f1a4aad",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+            },
+            "StopSignal": "SIGTERM"
+        },
+        "DockerVersion": "18.06.1-ce",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "80/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NGINX_VERSION=1.15.12-1~stretch",
+                "NJS_VERSION=1.15.12.0.3.1-1~stretch"
+            ],
+            "Cmd": [
+                "nginx",
+                "-g",
+                "daemon off;"
+            ],
+            "ArgsEscaped": true,
+            "Image": "sha256:1ffdb2ba66de7315612351681f6c94d083826a72f81d9b1ee418b26f0f1a4aad",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+            },
+            "StopSignal": "SIGTERM"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 109331233,
+        "VirtualSize": 109331233,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/b3c44022478ccb2340c04a514fbb11f311ebfa6631801505a906a4ff16bc4811/diff:/var/lib/docker/overlay2/21fac1b6ff729b7efd6ad53ca879fe4fbbcc3014e6354fa216755be8107fb51b/diff",
+                "MergedDir": "/var/lib/docker/overlay2/0bee317a7ba05c098e98088d43dd8630471c2c18590413e6c1d722851e1ddf98/merged",
+                "UpperDir": "/var/lib/docker/overlay2/0bee317a7ba05c098e98088d43dd8630471c2c18590413e6c1d722851e1ddf98/diff",
+                "WorkDir": "/var/lib/docker/overlay2/0bee317a7ba05c098e98088d43dd8630471c2c18590413e6c1d722851e1ddf98/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:6270adb5794c6987109e54af00ab456977c5d5cc6f1bc52c1ce58d32ec0f15f4",
+                "sha256:6ba094226eea86e21761829b88bdfdc9feb14bd83d60fb7e666f0943253657e8",
+                "sha256:332fa54c58864e2dcd3df0ad88c69b2707d45f2d8121dad6278a15148900e490"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]
+/home/docker> docker image inspect nginx-code
+[
+    {
+        "Id": "sha256:e3ded42bb607001e2e71dc96f2cbfe5a680ba5a5cacbcacbe947916beff85675",
+        "RepoTags": [
+            "nginx-code:latest"
+        ],
+        "RepoDigests": [],
+        "Parent": "sha256:53f3fd8007f76bd23bf663ad5f5009c8941f63828ae458cef584b5f85dc0a7bf",
+        "Comment": "",
+        "Created": "2019-05-13T11:10:09.47680955Z",
+        "Container": "6806a438e9f6b84b45246fa05a01c5880ee989ba8df56d8c7bcf474384468522",
+        "ContainerConfig": {
+            "Hostname": "6806a438e9f6",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "80/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NGINX_VERSION=1.15.12-1~stretch",
+                "NJS_VERSION=1.15.12.0.3.1-1~stretch"
+            ],
+            "Cmd": [
+                "nginx",
+                "-g",
+                "daemon off;"
+            ],
+            "ArgsEscaped": true,
+            "Image": "nginx",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+            },
+            "StopSignal": "SIGTERM"
+        },
+        "DockerVersion": "17.09.0-ce",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "80/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NGINX_VERSION=1.15.12-1~stretch",
+                "NJS_VERSION=1.15.12.0.3.1-1~stretch"
+            ],
+            "Cmd": [
+                "nginx",
+                "-g",
+                "daemon off;"
+            ],
+            "ArgsEscaped": true,
+            "Image": "",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+            },
+            "StopSignal": "SIGTERM"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 128373767,
+        "VirtualSize": 128373767,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/0bee317a7ba05c098e98088d43dd8630471c2c18590413e6c1d722851e1ddf98/diff:/var/lib/docker/overlay2/b3c44022478ccb2340c04a514fbb11f311ebfa6631801505a906a4ff16bc4811/diff:/var/lib/docker/overlay2/21fac1b6ff729b7efd6ad53ca879fe4fbbcc3014e6354fa216755be8107fb51b/diff",
+                "MergedDir": "/var/lib/docker/overlay2/a55e88019c7312ecb44d4bab3240409a5fcd3ee54fc0a96ba44cfa9732e98298/merged",
+                "UpperDir": "/var/lib/docker/overlay2/a55e88019c7312ecb44d4bab3240409a5fcd3ee54fc0a96ba44cfa9732e98298/diff",
+                "WorkDir": "/var/lib/docker/overlay2/a55e88019c7312ecb44d4bab3240409a5fcd3ee54fc0a96ba44cfa9732e98298/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:6270adb5794c6987109e54af00ab456977c5d5cc6f1bc52c1ce58d32ec0f15f4",
+                "sha256:6ba094226eea86e21761829b88bdfdc9feb14bd83d60fb7e666f0943253657e8",
+                "sha256:332fa54c58864e2dcd3df0ad88c69b2707d45f2d8121dad6278a15148900e490",
+                "sha256:d41cad242226a51070f749a56161eb33a69c2d7f473a85a3d6c6c5eb85ef6e81"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2019-05-13T11:10:09.523486172Z"
+        }
+    }
+]
+/home/docker>
+/home/docker>
