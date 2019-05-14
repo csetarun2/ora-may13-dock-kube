@@ -851,3 +851,39 @@ CONTAINER ID        IMAGE                                                       
 437345ba8235        nginx                                                            "nginx -g 'daemon ..."   15 minutes ago      Up 15 minutes       0.0.0.0:9091->80/tcp                                                 eager_beaver
 6806a438e9f6        nginx                                                            "nginx -g 'daemon ..."   17 minutes ago      Up 17 minutes       0.0.0.0:9090->80/tcp                                                 confident_wright
 /home/docker>
+
+---------------------------------------------------------------------------------------------------
+/home/docker> docker container commit 6806a438e9f6 nginx-code
+sha256:e3ded42bb607001e2e71dc96f2cbfe5a680ba5a5cacbcacbe947916beff85675
+/home/docker> docker container rm -f 437345ba8235 6806a438e9f6
+437345ba8235
+6806a438e9f6
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+/home/docker> docker container run -d -p 9595:80 nginx-code
+8c7056969da1b3e050f920c49c42a6c42aa4252018cd354cc2b29c918008b339
+/home/docker> docker container exec 8c7056 ping google.com
+PING google.com (172.217.166.110) 56(84) bytes of data.
+64 bytes from maa05s09-in-f14.1e100.net (172.217.166.110): icmp_seq=1 ttl=52 time=138 ms
+64 bytes from maa05s09-in-f14.1e100.net (172.217.166.110): icmp_seq=2 ttl=52 time=127 ms
+^C
+/home/docker>
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+8c7056969da1        nginx-code                                                       "nginx -g 'daemon ..."   13 minutes ago      Up 13 minutes       0.0.0.0:9595->80/tcp                                                 jolly_euler
+/home/docker> docker container rm -f 8c7056969da1
+8c7056969da1
+/home/docker> docker container run nginx
+^C/home/docker> docker container run -d nginx
+9d868fc18d2469aa68c741c26a110e9b8065876eec9b0458a5953f4d0df95cd1
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+9d868fc18d24        nginx                                                            "nginx -g 'daemon ..."   16 seconds ago      Up 16 seconds       80/tcp                                                               lucid_thompson
+/home/docker> docker container run -d -p 9696:80 nginx
+483ab0a71a25aa174f26ed41d125f123b1ff685a65a7ef840027bfffb3dac44e
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+483ab0a71a25        nginx                                                            "nginx -g 'daemon ..."   2 seconds ago       Up 1 second         0.0.0.0:9696->80/tcp                                                 trusting_austin
+9d868fc18d24        nginx                                                            "nginx -g 'daemon ..."   44 seconds ago      Up 43 seconds       80/tcp                                                               lucid_thompson
+/home/docker>
+
