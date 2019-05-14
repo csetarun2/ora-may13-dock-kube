@@ -352,3 +352,100 @@ e3ded42bb607        17 hours ago        nginx -g daemon off;                    
 ]
 /home/docker>
 /home/docker>
+
+----------------------------------------------------------------------------------------------------------
+
+/c/Users/Dell lap/docker-workshop/may13> mkdir alpine-apache
+/c/Users/Dell lap/docker-workshop/may13> cd alpine-apache/
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> ls
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cd
+/home/docker> cd /c/Users/
+/c/Users> cd Dell\ lap/
+/c/Users/Dell lap> cd docker-workshop/may13/alpine-apache
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image ls nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               latest              53f3fd8007f7        6 days ago          109MB
+nginx               <none>              2bcb04bdb83f        6 weeks ago         109MB
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image rm -f 2bcb04bdb83f
+Error response from daemon: conflict: unable to delete 2bcb04bdb83f (cannot be forced) - image has dependent child images/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cd              /home/docker> cd -
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image pull nginx:1
+1: Pulling from library/nginx
+Digest: sha256:23b4dcdf0d34d4a129755fc6f52e1c6e23bb34ea011b315d87e193033bcd1b68
+Status: Downloaded newer image for nginx:1
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image pull nginx
+Using default tag: latest
+^C
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image ls nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               1                   53f3fd8007f7        6 days ago          109MB
+nginx               latest              53f3fd8007f7        6 days ago          109MB
+nginx               <none>              2bcb04bdb83f        6 weeks ago         109MB
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image ls nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               1                   53f3fd8007f7        6 days ago          109MB
+nginx               latest              53f3fd8007f7        6 days ago          109MB
+nginx               <none>              2bcb04bdb83f        6 weeks ago         109MB
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image build -t alpine-apache:latest -t alpine-apache:1 -f Dockerfile .
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : FROM alpine
+latest: Pulling from library/alpine
+e7c96db7181b: Pull complete
+Digest: sha256:769fddc7cc2f0a1c35abb2f91432e8beecf83916c421420e6a6da9f8975464b6
+Status: Downloaded newer image for alpine:latest
+ ---> 055936d39205
+Step 2/3 : RUN apk update
+ ---> Running in 3fbf09f5d69f
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+v3.9.4-1-g3c20033f75 [http://dl-cdn.alpinelinux.org/alpine/v3.9/main]
+v3.9.3-94-g8dce0df69b [http://dl-cdn.alpinelinux.org/alpine/v3.9/community]
+OK: 9766 distinct packages available
+ ---> 7a760431b7a5
+Removing intermediate container 3fbf09f5d69f
+Step 3/3 : RUN apk add apache2
+ ---> Running in 05937d8de227
+(1/6) Installing libuuid (2.33-r0)
+(2/6) Installing apr (1.6.5-r0)
+(3/6) Installing expat (2.2.6-r0)
+(4/6) Installing apr-util (1.6.1-r5)
+(5/6) Installing pcre (8.42-r1)
+(6/6) Installing apache2 (2.4.39-r0)
+Executing apache2-2.4.39-r0.pre-install
+Executing busybox-1.29.3-r10.trigger
+OK: 9 MiB in 20 packages
+ ---> a366e27732b0
+Removing intermediate container 05937d8de227
+Successfully built a366e27732b0
+Successfully tagged alpine-apache:latest
+Successfully tagged alpine-apache:1
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image ls alpine-apache
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+alpine-apache       1                   a366e27732b0        39 seconds ago      10.4MB
+alpine-apache       latest              a366e27732b0        39 seconds ago      10.4MB
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image ls alpine
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+alpine              latest              055936d39205        3 days ago          5.53MB
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image ls | grep a366e27732b0
+alpine-apache                                                    1                   a366e27732b0        8 minutes ago       10.4MB
+alpine-apache                                                    latest              a366e27732b0        8 minutes ago       10.4MB
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image ls | grep 7a760431b7a5
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image ls -a | grep 7a760431b7a5
+<none>                                                           <none>              7a760431b7a5        8 minutes ago       6.85MB
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image rm 7a760431b7a5
+Error response from daemon: conflict: unable to delete 7a760431b7a5 (cannot be forced) - image has dependent child images
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
