@@ -449,3 +449,224 @@ alpine-apache                                                    latest         
 /c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image rm 7a760431b7a5
 Error response from daemon: conflict: unable to delete 7a760431b7a5 (cannot be forced) - image has dependent child images
 /c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+
+
+----------------------------------------------------------------------------------------------------
+
+
+
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+fa1ccb60d3aa        alpine-apache                                                    "ping -c30 google.com"   5 seconds ago       Up 4 seconds                                                                             hardcore_jennings
+0fdddfaf43ed        nginx                                                            "nginx -g 'daemon ..."   6 minutes ago       Up 6 minutes        80/tcp                                                               focused_pasteur
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+fa1ccb60d3aa        alpine-apache                                                    "ping -c30 google.com"   20 seconds ago      Up 19 seconds                                                                            hardcore_jennings
+0fdddfaf43ed        nginx                                                            "nginx -g 'daemon ..."   6 minutes ago       Up 6 minutes        80/tcp                                                               focused_pasteur
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+0fdddfaf43ed        nginx                                                            "nginx -g 'daemon ..."   6 minutes ago       Up 6 minutes        80/tcp                                                               focused_pasteur
+/home/docker>
+/home/docker> docker container ls -a | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS                      PORTS                                                                NAMES
+fa1ccb60d3aa        alpine-apache                                                    "ping -c30 google.com"   56 seconds ago      Exited (0) 24 seconds ago                                                                        hardcore_jennings
+0fdddfaf43ed        nginx                                                            "nginx -g 'daemon ..."   7 minutes ago       Up 7 minutes                80/tcp                                                               focused_pasteur
+8bcdcfa44b5b        alpine-apache                                                    "/bin/sh"                7 minutes ago       Exited (0) 7 minutes ago                                                                         competent_turing
+/home/docker> docker container run  alpine-apache ping -c2 google.com
+PING google.com (172.217.163.206): 56 data bytes
+64 bytes from 172.217.163.206: seq=0 ttl=52 time=44.072 ms
+64 bytes from 172.217.163.206: seq=1 ttl=52 time=38.757 ms
+
+--- google.com ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 38.757/41.414/44.072 ms
+/home/docker> #docker container run -d alpine-apache ping google.com
+/home/docker> docker container ls -a | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED              STATUS                          PORTS                                                                NAMES
+681844500cd7        alpine-apache                                                    "ping -c2 google.com"    About a minute ago   Exited (0) About a minute ago                                                                        elastic_ptolemy
+fa1ccb60d3aa        alpine-apache                                                    "ping -c30 google.com"   3 minutes ago        Exited (0) 3 minutes ago                                                                             hardcore_jennings
+0fdddfaf43ed        nginx                                                            "nginx -g 'daemon ..."   10 minutes ago       Up 10 minutes                   80/tcp                                                               focused_pasteur
+8bcdcfa44b5b        alpine-apache                                                    "/bin/sh"                10 minutes ago       Exited (0) 10 minutes ago                                                                            competent_turing
+/home/docker> docker container rm -f 681844500cd7 fa1ccb60d3aa 0fdddfaf43ed 8bcdcfa44b5b
+681844500cd7
+fa1ccb60d3aa
+0fdddfaf43ed
+8bcdcfa44b5b
+/home/docker>
+/home/docker> #docker container run -d alpine-apache ping google.com
+/home/docker> docker container run -d alpine-apache ping google.com
+14b93db28d30b83a040a03aa88a39bba42edf51cc76738ec72831b3d96aa4266
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+14b93db28d30        alpine-apache                                                    "ping google.com"        6 seconds ago       Up 5 seconds                                                                             modest_wozniak
+/home/docker> docker container exec -it 14b93db28d30 sh
+/ # ps
+PID   USER     TIME  COMMAND
+    1 root      0:00 ping google.com
+    5 root      0:00 sh
+    9 root      0:00 ps
+/ # httpd
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.14. Set the 'ServerName' directive globally to suppress this message
+/ # ps
+PID   USER     TIME  COMMAND
+    1 root      0:00 ping google.com
+    5 root      0:00 sh
+   11 root      0:00 httpd
+   12 apache    0:00 httpd
+   13 apache    0:00 httpd
+   14 apache    0:00 httpd
+   15 apache    0:00 httpd
+   16 apache    0:00 httpd
+   17 root      0:00 ps
+/ # kill -9 11 12 14 13 15 16
+/ # ps
+PID   USER     TIME  COMMAND
+    1 root      0:00 ping google.com
+    5 root      0:00 sh
+   18 root      0:00 ps
+/ # httpd -D FOREGROUND
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.14. Set the 'ServerName' directive globally to suppress this message
+exit
+^C/ # exit
+/home/docker>
+/home/docker> cd -
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+CMD ["httpd", "-D", "FOREGROUND"]
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image build -t alpine-apache:2 -t alpine-apache:latest .
+Sending build context to Docker daemon  2.048kB
+Step 1/4 : FROM alpine
+ ---> 055936d39205
+Step 2/4 : RUN apk update
+ ---> Using cache
+ ---> 7a760431b7a5
+Step 3/4 : RUN apk add apache2
+ ---> Using cache
+ ---> a366e27732b0
+Step 4/4 : CMD httpd -D FOREGROUND
+ ---> Running in 69dbc1a3806d
+ ---> a5919ba33234
+Removing intermediate container 69dbc1a3806d
+Successfully built a5919ba33234
+Successfully tagged alpine-apache:2
+Successfully tagged alpine-apache:latest
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image history alpine-apache
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+a5919ba33234        18 seconds ago      /bin/sh -c #(nop)  CMD ["httpd" "-D" "FORE...   0B      
+a366e27732b0        About an hour ago   /bin/sh -c apk add apache2                      3.6MB   
+7a760431b7a5        About an hour ago   /bin/sh -c apk update                           1.31MB  
+055936d39205        3 days ago          /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B      
+<missing>           3 days ago          /bin/sh -c #(nop) ADD file:a86aea1f3a7d68f...   5.53MB  
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container run -d -p 9090:80 alpine-apache
+3123a00f4c14ab336a1abc577770d183ac96e37b785b46067b1e2e56f999a9ab
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+3123a00f4c14        alpine-apache                                                    "httpd -D FOREGROUND"    5 seconds ago       Up 4 seconds        0.0.0.0:9090->80/tcp                                                 boring_joliot
+14b93db28d30        a366e27732b0                                                     "ping google.com"        16 minutes ago      Up 16 minutes                                                                            modest_wozniak
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container exec 3123a00f4c14 ps
+PID   USER     TIME  COMMAND
+    1 root      0:00 httpd -D FOREGROUND
+    5 apache    0:00 httpd -D FOREGROUND
+    6 apache    0:00 httpd -D FOREGROUND
+    7 apache    0:00 httpd -D FOREGROUND
+    8 apache    0:00 httpd -D FOREGROUND
+    9 apache    0:00 httpd -D FOREGROUND
+   10 apache    0:00 httpd -D FOREGROUND
+   11 root      0:00 ps
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container exec 14b93db28d30 ps
+PID   USER     TIME  COMMAND
+    1 root      0:00 ping google.com
+   25 root      0:00 ps
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> ps -ef | grep init
+root         1     0  0 04:08 ?        00:00:43 /sbin/init noembed norestore
+docker    4383  6333  0 06:56 pts/0    00:00:00 grep init
+root      6332  6244  0 04:10 ?        00:00:00 /usr/bin/dumb-init /nginx-ingress-controller --default-backend-service=kube-system/default-http-backend --configmap=kube-system/nginx-load-balancer-conf --tcp-services-configmap=kube-system/tcp-services --udp-services-configmap=kube-system/udp-services --report-node-internal-ip-address
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> ps -ef | grep google.com
+docker    4632  6333  0 06:58 pts/0    00:00:00 grep google.com
+root     32650 32628  0 06:35 ?        00:00:00 ping google.com
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cd
+/home/docker> ps -ef | grep "httpd -D"
+root      3325  3305  0 06:52 ?        00:00:00 httpd -D FOREGROUND
+100       3393  3325  0 06:52 ?        00:00:00 httpd -D FOREGROUND
+100       3394  3325  0 06:52 ?        00:00:00 httpd -D FOREGROUND
+100       3395  3325  0 06:52 ?        00:00:00 httpd -D FOREGROUND
+100       3396  3325  0 06:52 ?        00:00:00 httpd -D FOREGROUND
+100       3397  3325  0 06:52 ?        00:00:00 httpd -D FOREGROUND
+100       3515  3325  0 06:52 ?        00:00:00 httpd -D FOREGROUND
+docker    4829  6333  0 06:59 pts/0    00:00:00 grep httpd -D
+/home/docker> ps -ef | grep 3305
+root      3305  2431  0 06:52 ?        00:00:00 docker-containerd-shim 3123a00f4c14ab336a1abc577770d183ac96e37b785b46067b1e2e56f999a9ab /var/run/docker/libcontainerd/3123a00f4c14ab336a1abc577770d183ac96e37b785b46067b1e2e56f999a9ab docker-runc
+root      3325  3305  0 06:52 ?        00:00:00 httpd -D FOREGROUND
+docker    5853  6333  0 07:03 pts/0    00:00:00 grep 3305
+/home/docker> ^C
+/home/docker> docker container ls | wc -l
+32
+/home/docker> ps -ef | grep docker-containerd-shim | wc -l
+33
+/home/docker> ps -ef | grep 2431
+root      2431  2398  0 04:09 ?        00:00:13 docker-containerd -l unix:///var/run/docker/libcontainerd/docker-containerd.sock --metrics-interval=0 --start-timeout 2m --state-dir /var/run/docker/libcontainerd/containerd --shim docker-containerd-shim --runtime docker-runc
+root      3305  2431  0 06:52 ?        00:00:00 docker-containerd-shim 3123a00f4c14ab336a1abc577770d183ac96e37b785b46067b1e2e56f999a9ab /var/run/docker/libcontainerd/3123a00f4c14ab336a1abc577770d183ac96e37b785b46067b1e2e56f999a9ab docker-runc
+root      4144  2431  0 04:10 ?        00:00:00 docker-containerd-shim 9ee1609e0f48fbb84ef6a5c246735844719609eacabe791e25fc19b2ee31de23 /var/run/docker/libcontainerd/9ee1609e0f48fbb84ef6a5c246735844719609eacabe791e25fc19b2ee31de23 docker-runc
+root      4222  2431  0 04:10 ?        00:00:00 docker-containerd-shim f778e272682e1afcbfaa8894335f6fbe00d6c1c42a6e7c653460bb2c48fc4ee8 /var/run/docker/libcontainerd/f778e272682e1afcbfaa8894335f6fbe00d6c1c42a6e7c653460bb2c48fc4ee8 docker-runc
+root      4280  2431  0 04:10 ?        00:00:00 docker-containerd-shim 966686df4cff5c687c0779f667fcf3de45bd64cf0c3aa77989445715dc483584 /var/run/docker/libcontainerd/966686df4cff5c687c0779f667fcf3de45bd64cf0c3aa77989445715dc483584 docker-runc
+root      4314  2431  0 04:10 ?        00:00:00 docker-containerd-shim cdcb606f1f814f1c34c18005cc0ea7f5ef72a19ed8d9a12ac105e1b5cdab5f40 /var/run/docker/libcontainerd/cdcb606f1f814f1c34c18005cc0ea7f5ef72a19ed8d9a12ac105e1b5cdab5f40 docker-runc
+root      4519  2431  0 04:10 ?        00:00:00 docker-containerd-shim 76311126a297a1d7686831b8595cbf3e43317ea6f524aed3e22fc8bd9aed1214 /var/run/docker/libcontainerd/76311126a297a1d7686831b8595cbf3e43317ea6f524aed3e22fc8bd9aed1214 docker-runc
+root      4520  2431  0 04:10 ?        00:00:00 docker-containerd-shim 695aafccd60b1c380d569c443827ab9d236b811b63c0a2c8a3e721ddd4f06a94 /var/run/docker/libcontainerd/695aafccd60b1c380d569c443827ab9d236b811b63c0a2c8a3e721ddd4f06a94 docker-runc
+root      4612  2431  0 04:10 ?        00:00:00 docker-containerd-shim f46054e537768b7cd8ab862387b4feae3f18acff20236c61d741832fe7becead /var/run/docker/libcontainerd/f46054e537768b7cd8ab862387b4feae3f18acff20236c61d741832fe7becead docker-runc
+root      4633  2431  0 04:10 ?        00:00:00 docker-containerd-shim 94472a3839a09b3ced9d8db308f01fbb61bc7a9eb50cb1c22a6170122ac32893 /var/run/docker/libcontainerd/94472a3839a09b3ced9d8db308f01fbb61bc7a9eb50cb1c22a6170122ac32893 docker-runc
+root      4729  2431  0 04:10 ?        00:00:00 docker-containerd-shim 97a7a991ede52ddacebb5579b07cf77e1152a7abfcde69be4e0de16f587a5d77 /var/run/docker/libcontainerd/97a7a991ede52ddacebb5579b07cf77e1152a7abfcde69be4e0de16f587a5d77 docker-runc
+root      4947  2431  0 04:10 ?        00:00:00 docker-containerd-shim 0d0915da8655452af84df2943c72ec6b89afe595d2e473c6f641e1d6d54cff80 /var/run/docker/libcontainerd/0d0915da8655452af84df2943c72ec6b89afe595d2e473c6f641e1d6d54cff80 docker-runc
+root      5002  2431  0 04:10 ?        00:00:00 docker-containerd-shim 2f1aae8940b2b6c1fd3ec047ff17db3a0e03378df13a8a6515e5a364fee7cb4a /var/run/docker/libcontainerd/2f1aae8940b2b6c1fd3ec047ff17db3a0e03378df13a8a6515e5a364fee7cb4a docker-runc
+root      5148  2431  0 04:10 ?        00:00:00 docker-containerd-shim 93f08610f7c1b76e73d8db1f70a45914746056bb63e34bbb2ea6be5a6d43f6a9 /var/run/docker/libcontainerd/93f08610f7c1b76e73d8db1f70a45914746056bb63e34bbb2ea6be5a6d43f6a9 docker-runc
+root      5249  2431  0 04:10 ?        00:00:00 docker-containerd-shim 0d609c42bb8709c9bd2b2a91cb52e05e2c8e57a55f2472b8e14f424b7d138090 /var/run/docker/libcontainerd/0d609c42bb8709c9bd2b2a91cb52e05e2c8e57a55f2472b8e14f424b7d138090 docker-runc
+root      5250  2431  0 04:10 ?        00:00:00 docker-containerd-shim 73459a20df0f1afad0867e758fb7f563e3c904331908cf96a7c2406429bcd7f5 /var/run/docker/libcontainerd/73459a20df0f1afad0867e758fb7f563e3c904331908cf96a7c2406429bcd7f5 docker-runc
+root      5393  2431  0 04:10 ?        00:00:00 docker-containerd-shim 40e3f0428749d9fb9348513a0059735d73a7791900f2e0e440dc2da3754fe0a6 /var/run/docker/libcontainerd/40e3f0428749d9fb9348513a0059735d73a7791900f2e0e440dc2da3754fe0a6 docker-runc
+root      5516  2431  0 04:10 ?        00:00:00 docker-containerd-shim a4c86bc561593331bbe2406e4094fdc6452728251db93e73ca5d1d6957b43ea0 /var/run/docker/libcontainerd/a4c86bc561593331bbe2406e4094fdc6452728251db93e73ca5d1d6957b43ea0 docker-runc
+root      5605  2431  0 04:10 ?        00:00:00 docker-containerd-shim cb3d375d82c9c29e94045439ec2ee77d989190f25e9f01a5316f533ad93e9160 /var/run/docker/libcontainerd/cb3d375d82c9c29e94045439ec2ee77d989190f25e9f01a5316f533ad93e9160 docker-runc
+root      5607  2431  0 04:10 ?        00:00:00 docker-containerd-shim f3e9545f6c4fba65eb2fb43ba67e442b1cdd751ad73d40b523886c63e1993249 /var/run/docker/libcontainerd/f3e9545f6c4fba65eb2fb43ba67e442b1cdd751ad73d40b523886c63e1993249 docker-runc
+root      5625  2431  0 04:10 ?        00:00:00 docker-containerd-shim 293c1e32a99c658a90c008eb62282a83fd9bd7b7d444e73ed0daa3f4f4002bbb /var/run/docker/libcontainerd/293c1e32a99c658a90c008eb62282a83fd9bd7b7d444e73ed0daa3f4f4002bbb docker-runc
+root      5626  2431  0 04:10 ?        00:00:00 docker-containerd-shim c9e22bafb53b17764bf97c885d948a8aae6d5c8a33a30ca29de91ea360e0a218 /var/run/docker/libcontainerd/c9e22bafb53b17764bf97c885d948a8aae6d5c8a33a30ca29de91ea360e0a218 docker-runc
+root      5654  2431  0 04:10 ?        00:00:00 docker-containerd-shim a4851985d84a45cff5c4351eef66f2df335a0da2130c41fb9bf7b0eeedff534f /var/run/docker/libcontainerd/a4851985d84a45cff5c4351eef66f2df335a0da2130c41fb9bf7b0eeedff534f docker-runc
+root      5658  2431  0 04:10 ?        00:00:00 docker-containerd-shim e4376859e992e4b383664724e8e920cc2ab6ef563fa445d196a6eb987d2affe1 /var/run/docker/libcontainerd/e4376859e992e4b383664724e8e920cc2ab6ef563fa445d196a6eb987d2affe1 docker-runc
+root      6081  2431  0 04:10 ?        00:00:00 docker-containerd-shim 667c9f958db9d67bb4886b10dea2cfae01ac117f8dd4a84c0a3bbef3a7799ca0 /var/run/docker/libcontainerd/667c9f958db9d67bb4886b10dea2cfae01ac117f8dd4a84c0a3bbef3a7799ca0 docker-runc
+root      6228  2431  0 04:10 ?        00:00:00 docker-containerd-shim 353f029f92ed7132aac24d09c03d3e05b8aafe5be2ae8d60afd023f5f10039d7 /var/run/docker/libcontainerd/353f029f92ed7132aac24d09c03d3e05b8aafe5be2ae8d60afd023f5f10039d7 docker-runc
+root      6237  2431  0 04:10 ?        00:00:00 docker-containerd-shim 4e588004787491a25fef459cfaefc42b004b5d2c1e1d9fe36b15061f7935e49f /var/run/docker/libcontainerd/4e588004787491a25fef459cfaefc42b004b5d2c1e1d9fe36b15061f7935e49f docker-runc
+root      6243  2431  0 04:10 ?        00:00:00 docker-containerd-shim 27d4dc1758dcd19845e94fdb73ed0443e500408dc11fe640f0197d0a63ecc4c5 /var/run/docker/libcontainerd/27d4dc1758dcd19845e94fdb73ed0443e500408dc11fe640f0197d0a63ecc4c5 docker-runc
+root      6244  2431  0 04:10 ?        00:00:00 docker-containerd-shim 1cb1c0b8a8bcb8debcf89aac922cc5b3118abf201a81e71a5d5d286306fb1c44 /var/run/docker/libcontainerd/1cb1c0b8a8bcb8debcf89aac922cc5b3118abf201a81e71a5d5d286306fb1c44 docker-runc
+root      6276  2431  0 04:10 ?        00:00:00 docker-containerd-shim d9efd082780084d952f51309691073c067dd03d4c1b76d1d8ef5953ba2a2d4aa /var/run/docker/libcontainerd/d9efd082780084d952f51309691073c067dd03d4c1b76d1d8ef5953ba2a2d4aa docker-runc
+root      6290  2431  0 04:10 ?        00:00:00 docker-containerd-shim e3582f7302afb82f7b225cd14c0728a58968d557728b50659404cd2cc296aa47 /var/run/docker/libcontainerd/e3582f7302afb82f7b225cd14c0728a58968d557728b50659404cd2cc296aa47 docker-runc
+docker    6329  6333  0 07:05 pts/0    00:00:00 grep 2431
+root     32628  2431  0 06:35 ?        00:00:02 docker-containerd-shim 14b93db28d30b83a040a03aa88a39bba42edf51cc76738ec72831b3d96aa4266 /var/run/docker/libcontainerd/14b93db28d30b83a040a03aa88a39bba42edf51cc76738ec72831b3d96aa4266 docker-runc
+/home/docker> ps -ef | grep 2398
+root      2398     1  4 04:09 ?        00:07:21 /usr/bin/dockerd -H tcp://0.0.0.0:2376 -H unix:///var/run/docker.sock --tlsverify --tlscacert /etc/docker/ca.pem --tlscert /etc/docker/server.pem --tlskey /etc/docker/server-key.pem --label provider=virtualbox --insecure-registry 10.96.0.0/12
+root      2431  2398  0 04:09 ?        00:00:13 docker-containerd -l unix:///var/run/docker/libcontainerd/docker-containerd.sock --metrics-interval=0 --start-timeout 2m --state-dir /var/run/docker/libcontainerd/containerd --shim docker-containerd-shim --runtime docker-runc
+root      3297  2398  0 06:52 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 9090 -container-ip 172.17.0.15 -container-port 80
+root      5456  2398  0 04:10 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 18080 -container-ip 172.17.0.12 -container-port 18080
+root      5468  2398  0 04:10 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 443 -container-ip 172.17.0.12 -container-port 443
+root      5481  2398  0 04:10 ?        00:00:00 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 80 -container-ip 172.17.0.12 -container-port 80
+docker    6594  6333  0 07:07 pts/0    00:00:00 grep 2398
+/home/docker>
+/home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+3123a00f4c14        alpine-apache                                                    "httpd -D FOREGROUND"    16 minutes ago      Up 16 minutes       0.0.0.0:9090->80/tcp                                                 boring_joliot
+14b93db28d30        a366e27732b0                                                     "ping google.com"        33 minutes ago      Up 33 minutes                                                                            modest_wozniak
+/home/docker> docker container exec -it 3123a00f4c14 sh
+/ # ps
+PID   USER     TIME  COMMAND
+    1 root      0:00 httpd -D FOREGROUND
+    5 apache    0:00 httpd -D FOREGROUND
+    6 apache    0:00 httpd -D FOREGROUND
+    7 apache    0:00 httpd -D FOREGROUND
+    8 apache    0:00 httpd -D FOREGROUND
+    9 apache    0:00 httpd -D FOREGROUND
+   10 apache    0:00 httpd -D FOREGROUND
+   16 root      0:00 sh
+   20 root      0:00 ps
+/ # /home/docker> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+14b93db28d30        a366e27732b0                                                     "ping google.com"        34 minutes ago      Up 34 minutes                                                                            modest_wozniak
+/home/docker>
