@@ -670,3 +670,384 @@ PID   USER     TIME  COMMAND
 CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
 14b93db28d30        a366e27732b0                                                     "ping google.com"        34 minutes ago      Up 34 minutes                                                                            modest_wozniak
 /home/docker>
+
+
+--------------------------------------------------------------------------------------------------------------
+
+/c/Users/Dell lap/docker-workshop/may13> mkdir app
+/c/Users/Dell lap/docker-workshop/may13> cd app
+/c/Users/Dell lap/docker-workshop/may13/app> ls
+/c/Users/Dell lap/docker-workshop/may13/app> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/app> cat > mypage.html
+<h1> My Product </h1>
+^C
+/c/Users/Dell lap/docker-workshop/may13/app> ls
+mypage.html
+/c/Users/Dell lap/docker-workshop/may13/app> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/app> cat mypage.html
+<h1> My Product </h1>
+/c/Users/Dell lap/docker-workshop/may13/app> cat Dockerfile
+FROM alpine-apache
+COPY mypage.html /var/www/localhost/htdocs
+/c/Users/Dell lap/docker-workshop/may13/app> docker image build -t app:latest -t app:1 .
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM alpine-apache
+ ---> a5919ba33234
+Step 2/2 : COPY mypage.html /var/www/localhost/htdocs
+ ---> a90fdc3064c3
+Successfully built a90fdc3064c3
+Successfully tagged app:latest
+Successfully tagged app:1
+/c/Users/Dell lap/docker-workshop/may13/app> ls
+Dockerfile  mypage.html
+/c/Users/Dell lap/docker-workshop/may13/app> cd ../..
+/c/Users/Dell lap/docker-workshop> cd ..
+/c/Users/Dell lap> ls
+ AndroidStudioProjects
+ AppData
+'Application Data'
+ Contacts
+ Cookies
+ Desktop
+ Dockerfile
+ Documents
+ Downloads
+ Favorites
+ IdeaProjects
+ IntelGraphicsProfiles
+ Links
+'Local Settings'
+ Music
+'My Documents'
+ NTUSER.DAT
+ NTUSER.DAT{fd2528e9-7130-11e4-80c1-a4badb27af85}.TM.blf
+ NTUSER.DAT{fd2528e9-7130-11e4-80c1-a4badb27af85}.TMContainer00000000000000000001.regtrans-ms
+ NTUSER.DAT{fd2528e9-7130-11e4-80c1-a4badb27af85}.TMContainer00000000000000000002.regtrans-ms
+ NetHood
+'New folder'
+ Pictures
+ PrintHood
+ PycharmProjects
+ README.md
+ Recent
+'Saved Games'
+ Searches
+ SendTo
+'Start Menu'
+ SuperPuTTY.settings
+ Templates
+ Tracing
+'Untitled Folder'
+ Untitled.ipynb
+ Untitled1.ipynb
+ Untitled2.ipynb
+ Untitled3.ipynb
+ Videos
+'VirtualBox VMs'
+ ai
+ apachelogs
+ aug14
+ aug7
+ build_all.sh
+ code
+ command.txt
+ commands.txt
+ deploy.sh
+ docker-code
+ docker-kuber
+ docker-workshop
+ drone-with-java
+ dronedemo
+ eclipse
+ eclipse-workspace
+ feb8
+ forrebase
+ gitdemo
+ java-docker-kube
+ jul30
+ k8s.conf
+ kubernetes
+ may2
+ may3
+ may4
+ mercurial.ini
+ myfile.txt
+ myfolder
+ ntuser.dat.LOG1
+ ntuser.dat.LOG2
+ ntuser.ini
+ productcatalogue
+ scalaworkspace
+ seaborn-data
+ sept29
+ shopfront
+ slimproj
+ source
+ ssh.exe.stackdump
+ stockmanager
+ temp
+ to_del
+ todel
+ userdec28.crt
+ userdec28.pem
+ userjan25.crt
+ userjan31.crt
+ userjan31.pem
+ venv
+ wc
+ workspace
+/c/Users/Dell lap> cd -
+/c/Users/Dell lap/docker-workshop
+/c/Users/Dell lap/docker-workshop> cd app
+-bash: cd: app: No such file or directory
+/c/Users/Dell lap/docker-workshop> ls
+'New folder'                                docker-compose.yml   may9
+ al-ap                                      feb11                mysql.tar
+ apr1                                       feb25                nginx-alpine.tar
+ apr22                                      ghost.tar            nginx.conf
+ apr8                                       index.html           pinger
+ bash-alpine                                jan21                repositories.json
+ code                                       jan28                spring-petclinic
+ command-dec24-2.txt                        jan7                 ubuntu-nginx
+ command-withoutput-dec26-dec27-p6908.log   mar11                us-mar11
+ commanddec24-1.txt                         mar4                 userjan11-csr.crt
+ day2                                       may13                userjan11.pem
+/c/Users/Dell lap/docker-workshop> cd may13
+/c/Users/Dell lap/docker-workshop/may13> ls
+ alpine-apache   app   dockers-slightedge-may13.pptx  '~$dockers-slightedge-may13.pptx'
+/c/Users/Dell lap/docker-workshop/may13> cd app
+/c/Users/Dell lap/docker-workshop/may13/app> ls
+Dockerfile  mypage.html
+/c/Users/Dell lap/docker-workshop/may13/app>
+/c/Users/Dell lap/docker-workshop/may13/app> docker image build -t app:latest -t app:1 .
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM alpine-apache
+ ---> a5919ba33234
+Step 2/2 : COPY mypage.html /var/www/localhost/htdocs
+ ---> Using cache
+ ---> a90fdc3064c3
+Successfully built a90fdc3064c3
+Successfully tagged app:latest
+Successfully tagged app:1
+/c/Users/Dell lap/docker-workshop/may13/app> ld
+-bash: ld: command not found
+/c/Users/Dell lap/docker-workshop/may13/app> ls
+Dockerfile  mypage.html
+/c/Users/Dell lap/docker-workshop/may13/app> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/app> ls
+Dockerfile  mypage.html
+/c/Users/Dell lap/docker-workshop/may13/app> docker image build -t app:latest -t app:1 .
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM alpine-apache
+ ---> a5919ba33234
+Step 2/2 : COPY mypage1.html /var/www/localhost/htdocs
+COPY failed: stat /var/lib/docker/tmp/docker-builder154992638/mypage1.html: no such file or directory
+/c/Users/Dell lap/docker-workshop/may13/app> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/app> docker image build -t app:latest -t app:1
+"docker image build" requires exactly 1 argument.
+See 'docker image build --help'.
+
+Usage:  docker image build [OPTIONS] PATH | URL | -
+
+Build an image from a Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/app> docker image build -t app:latest -t app:1 .
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM alpine-apache
+ ---> a5919ba33234
+Step 2/2 : COPY mypage.html /var/www/localhost/htdocs
+ ---> Using cache
+ ---> a90fdc3064c3
+Successfully built a90fdc3064c3
+Successfully tagged app:latest
+Successfully tagged app:1
+/c/Users/Dell lap/docker-workshop/may13/app> cd ..
+/c/Users/Dell lap/docker-workshop/may13> docker image build -t app:latest -t app:1 app
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM alpine-apache
+ ---> a5919ba33234
+Step 2/2 : COPY mypage.html /var/www/localhost/htdocs
+ ---> Using cache
+ ---> a90fdc3064c3
+Successfully built a90fdc3064c3
+Successfully tagged app:latest
+Successfully tagged app:1
+/c/Users/Dell lap/docker-workshop/may13> cd app
+/c/Users/Dell lap/docker-workshop/may13/app> cat Dockerfile
+FROM alpine-apache
+COPY mypage.html /var/www/localhost/htdocs
+/c/Users/Dell lap/docker-workshop/may13/app> docker image history app
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+a90fdc3064c3        8 minutes ago       /bin/sh -c #(nop) COPY file:f0e3f68acd2b51...   22B     
+a5919ba33234        2 hours ago         /bin/sh -c #(nop)  CMD ["httpd" "-D" "FORE...   0B      
+a366e27732b0        3 hours ago         /bin/sh -c apk add apache2                      3.6MB   
+7a760431b7a5        3 hours ago         /bin/sh -c apk update                           1.31MB  
+055936d39205        3 days ago          /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B      
+<missing>           3 days ago          /bin/sh -c #(nop) ADD file:a86aea1f3a7d68f...   5.53MB  
+/c/Users/Dell lap/docker-workshop/may13/app> docker container run -d -p 9191:80 app
+40a7bb578af5c522016cfe8677df142e281dd4ce31ff5a693f950414c4ea4819
+/c/Users/Dell lap/docker-workshop/may13/app> cd ..
+/c/Users/Dell lap/docker-workshop/may13>
+/c/Users/Dell lap/docker-workshop/may13> ls
+ alpine-apache   app   dockers-slightedge-may13.pptx  '~$dockers-slightedge-may13.pptx'
+/c/Users/Dell lap/docker-workshop/may13> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+40a7bb578af5        app                                                              "httpd -D FOREGROUND"    4 minutes ago       Up 4 minutes        0.0.0.0:9191->80/tcp                                                 wizardly_goldwasser
+14b93db28d30        a366e27732b0                                                     "ping google.com"        2 hours ago         Up 2 hours                                                                               modest_wozniak
+/c/Users/Dell lap/docker-workshop/may13> docker container exec -it 40a7bb578af5 sh
+/ # cd /etc/apache2
+/etc/apache2 # ls
+conf.d      httpd.conf  magic       mime.types
+/etc/apache2 # vi httpd.conf
+/etc/apache2 #
+/etc/apache2 # grep Listen httpd.conf
+# Listen: Allows you to bind Apache to specific IP addresses and/or
+# Change this to Listen on specific IP addresses as shown below to
+#Listen 12.34.56.78:80
+Listen 80
+/etc/apache2 # sed -i "s/Listen 80/Listen 8989/" httpd.conf
+/etc/apache2 # grep Listen httpd.conf
+# Listen: Allows you to bind Apache to specific IP addresses and/or
+# Change this to Listen on specific IP addresses as shown below to
+#Listen 12.34.56.78:80
+Listen 8989
+/etc/apache2 # exit
+/c/Users/Dell lap/docker-workshop/may13> cd alpine-apache/
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> ls
+Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+
+# docker-entrypoint.sh httpd -D FOREGROUND
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+
+# docker-entrypoint.sh httpd -D FOREGROUND
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi docker-entrypoint.sh
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat docker-entrypoint.sh
+#!/bin/sh
+
+sed -i "s/Listen 80/Listen 8989/" /etc/apache2/httpd.conf
+
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+
+# docker-entrypoint.sh httpd -D FOREGROUND
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi script.sh
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> chmod +x script.sh
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat script.sh
+#!/bin/sh
+
+echo $@
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> ./script.sh HELLO
+HELLO
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> ./script.sh HELLO ONE
+HELLO ONE
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> ./script.sh ls -ltr
+ls -ltr
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi ./script.sh
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> ./script.sh ls -ltr
+ls -ltr
+total 2
+-rwxrwxrwx 1 docker docker 161 May 14 08:57 Dockerfile
+-rwxrwxrwx 1 docker docker  70 May 14 08:58 docker-entrypoint.sh
+-rwxrwxrwx 1 docker docker  31 May 14 09:02 script.sh
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi docker-entrypoint.sh
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat docker-entrypoint.sh
+#!/bin/sh
+
+sed -i "s/Listen 80/Listen 8989/" /etc/apache2/httpd.conf
+exec "$@"
+
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+
+# docker-entrypoint.sh httpd -D FOREGROUND
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile
+FROM alpine
+RUN apk update
+RUN apk add apache2
+COPY docker-entrypoint.sh /bin
+RUN chmod +x /bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+
+# docker-entrypoint.sh httpd -D FOREGROUND
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container ls | grep -v k8s
+CONTAINER ID        IMAGE                                                            COMMAND                  CREATED             STATUS              PORTS                                                                NAMES
+40a7bb578af5        app                                                              "httpd -D FOREGROUND"    23 minutes ago      Up 23 minutes       0.0.0.0:9191->80/tcp                                                 wizardly_goldwasser
+14b93db28d30        a366e27732b0                                                     "ping google.com"        3 hours ago         Up 3 hours                                                                               modest_wozniak
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container rm -f 40a7bb578af5 14b93db28d30
+40a7bb578af5
+14b93db28d30
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker image build -t alpine-apache:3 -t alpine-apache:latest .
+Sending build context to Docker daemon  4.096kB
+Step 1/7 : FROM alpine
+ ---> 055936d39205
+Step 2/7 : RUN apk update
+ ---> Using cache
+ ---> 7a760431b7a5
+Step 3/7 : RUN apk add apache2
+ ---> Using cache
+ ---> a366e27732b0
+Step 4/7 : COPY docker-entrypoint.sh /bin
+ ---> e1a5f5cf8662
+Step 5/7 : RUN chmod +x /bin/docker-entrypoint.sh
+ ---> Running in 3b71ff9d89bf
+ ---> 4d5b3cf0422f
+Removing intermediate container 3b71ff9d89bf
+Step 6/7 : ENTRYPOINT docker-entrypoint.sh
+ ---> Running in bfdefeeb06b8
+ ---> e8bb34a566ee
+Removing intermediate container bfdefeeb06b8
+Step 7/7 : CMD httpd -D FOREGROUND
+ ---> Running in 6f5d5c73b8e8
+ ---> c5632e446e10
+Removing intermediate container 6f5d5c73b8e8
+Successfully built c5632e446e10
+Successfully tagged alpine-apache:3
+Successfully tagged alpine-apache:latest
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> vi Dockerfile
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> i#docker container run -d -p alpine-apache
+-bash: i#docker: command not found
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat docker-entrypoint.sh
+#!/bin/sh
+
+sed -i "s/Listen 80/Listen 8989/" /etc/apache2/httpd.conf
+exec "$@"
+
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> docker container run -d -p 9090:8989 alpine-apache
+a073b70cfd57b05ac62566861ed93a88f0f8676fa479ff6923f0b9eca95f7822
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache> cat Dockerfile                           FROM alpine
+RUN apk update
+RUN apk add apache2
+COPY docker-entrypoint.sh /bin
+RUN chmod +x /bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["httpd", "-D", "FOREGROUND"]
+
+# docker-entrypoint.sh httpd -D FOREGROUND
+/c/Users/Dell lap/docker-workshop/may13/alpine-apache>
