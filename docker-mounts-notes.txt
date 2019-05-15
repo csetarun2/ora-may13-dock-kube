@@ -1,0 +1,10 @@
+1. Backup of files: unnamed volumes
+    1.1 docker container run -d -v /var/log/apache2  alpine-apache
+    1.2 VOLUME /var/lib/mysql in Dockerfile
+    
+2. Backup and Reuse: named volumes
+    2.1 docker container run -d -v proj_db:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=welcome mysql:5.7
+    
+3. Backup and reuse and specify your own directory: bind mounts
+    3.1  docker container run -d -v /tmp/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=welcome mysql:5.7
+    
