@@ -449,3 +449,439 @@ Dell lap@Dell ~/docker-workshop/may13/k8s/pod
 pod "my-nginx" deleted
 Dell lap@Dell ~/docker-workshop/may13/k8s/pod
 λ
+
+
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl apply -f rc-helloworld.yml
+replicationcontroller "helloworld-controller" created
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get replicationcontroller
+NAME                    DESIRED   CURRENT   READY     AGE
+helloworld-controller   2         2         2         30s
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get rc
+NAME                    DESIRED   CURRENT   READY     AGE
+helloworld-controller   2         2         2         36s
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods
+NAME                          READY     STATUS    RESTARTS   AGE
+helloworld-controller-fczrp   1/1       Running   0          2m
+helloworld-controller-jzhx5   1/1       Running   0          2m
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods -o wide
+NAME                          READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-controller-fczrp   1/1       Running   0          4m        172.17.0.15   minikube
+helloworld-controller-jzhx5   1/1       Running   0          4m        172.17.0.14   minikube
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl delete pod helloworld-controller-fczrp
+pod "helloworld-controller-fczrp" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods -o wide
+NAME                          READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-controller-jzhx5   1/1       Running   0          5m        172.17.0.14   minikube
+helloworld-controller-xw4wn   1/1       Running   0          19s       172.17.0.15   minikube
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl scale rc helloworld-controller --replicas 5
+replicationcontroller "helloworld-controller" scaled
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods -o wide
+NAME                          READY     STATUS              RESTARTS   AGE       IP            NODE
+helloworld-controller-gn8p8   0/1       ContainerCreating   0          4s        <none>        minikube
+helloworld-controller-h4ssg   0/1       ContainerCreating   0          4s        <none>        minikube
+helloworld-controller-jn75k   1/1       Running             0          4s        172.17.0.17   minikube
+helloworld-controller-jzhx5   1/1       Running             0          8m        172.17.0.14   minikube
+helloworld-controller-xw4wn   1/1       Running             0          2m        172.17.0.15   minikube
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods -o wide
+NAME                          READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-controller-gn8p8   1/1       Running   0          33s       172.17.0.16   minikube
+helloworld-controller-h4ssg   1/1       Running   0          33s       172.17.0.18   minikube
+helloworld-controller-jn75k   1/1       Running   0          33s       172.17.0.17   minikube
+helloworld-controller-jzhx5   1/1       Running   0          8m        172.17.0.14   minikube
+helloworld-controller-xw4wn   1/1       Running   0          2m        172.17.0.15   minikube
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl scale rc helloworld-controller --replicas 2
+replicationcontroller "helloworld-controller" scaled
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods -o wide
+NAME                          READY     STATUS        RESTARTS   AGE       IP            NODE
+helloworld-controller-gn8p8   0/1       Terminating   0          1m        172.17.0.16   minikube
+helloworld-controller-h4ssg   0/1       Terminating   0          1m        172.17.0.18   minikube
+helloworld-controller-jn75k   0/1       Terminating   0          1m        172.17.0.17   minikube
+helloworld-controller-jzhx5   1/1       Running       0          9m        172.17.0.14   minikube
+helloworld-controller-xw4wn   1/1       Running       0          3m        172.17.0.15   minikube
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods -o wide
+NAME                          READY     STATUS    RESTARTS   AGE       IP            NODE
+helloworld-controller-jzhx5   1/1       Running   0          9m        172.17.0.14   minikube
+helloworld-controller-xw4wn   1/1       Running   0          3m        172.17.0.15   minikube
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS    RESTARTS   AGE       LABELS
+helloworld-controller-jzhx5   1/1       Running   0          15m       app=helloworld
+helloworld-controller-xw4wn   1/1       Running   0          10m       app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl delete pod helloworld-controller-jzhx5
+pod "helloworld-controller-jzhx5" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS    RESTARTS   AGE       LABELS
+helloworld-controller-tzk6b   1/1       Running   0          4s        app=helloworld
+helloworld-controller-xw4wn   1/1       Running   0          11m       app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl delete rc helloworld-controller
+replicationcontroller "helloworld-controller" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS        RESTARTS   AGE       LABELS
+helloworld-controller-tzk6b   0/1       Terminating   0          1m        app=helloworld
+helloworld-controller-xw4wn   0/1       Terminating   0          12m       app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS        RESTARTS   AGE       LABELS
+helloworld-controller-tzk6b   0/1       Terminating   0          1m        app=helloworld
+helloworld-controller-xw4wn   0/1       Terminating   0          12m       app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods --show-labels
+No resources found.
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ kubectl get pods --show-labels
+No resources found.
+Dell lap@Dell ~/docker-workshop/may13/k8s/rc
+λ cd ..
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl apply -f pod/pod-helloworld.yml
+pod "my-nginx" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods --show-labels
+NAME       READY     STATUS    RESTARTS   AGE       LABELS
+my-nginx   1/1       Running   0          6s        app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl apply -f rc/rc-helloworld.yml
+replicationcontroller "helloworld-controller" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS    RESTARTS   AGE       LABELS
+helloworld-controller-6pm44   1/1       Running   0          25s       app=helloworld
+my-nginx                      1/1       Running   0          59s       app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete pod my-nginx
+pod "my-nginx" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS        RESTARTS   AGE       LABELS
+helloworld-controller-6pm44   1/1       Running       0          2m        app=helloworld
+helloworld-controller-wvq6p   1/1       Running       0          4s        app=helloworld
+my-nginx                      0/1       Terminating   0          2m        app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete -f rc/rc-helloworld.yml
+replicationcontroller "helloworld-controller" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods --show-labels
+NAME                          READY     STATUS        RESTARTS   AGE       LABELS
+helloworld-controller-wvq6p   0/1       Terminating   0          18m       app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl create -f dep/dep-helloworld.yml
+deployment "helloworld-dep" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get deployments
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+helloworld-dep   1         1         1            1           13s
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get deploy
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+helloworld-dep   1         1         1            1           16s
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get rs
+NAME                        DESIRED   CURRENT   READY     AGE
+helloworld-dep-765746cb75   1         1         1         1m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-765746cb75-kjpvd   1/1       Running   0          1m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl scale deploy helloworld-dep --replicas 5
+deployment "helloworld-dep" scaled
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS              RESTARTS   AGE
+helloworld-dep-765746cb75-5ssqw   0/1       ContainerCreating   0          5s
+helloworld-dep-765746cb75-cwzk4   0/1       ContainerCreating   0          5s
+helloworld-dep-765746cb75-dslm7   0/1       ContainerCreating   0          5s
+helloworld-dep-765746cb75-kcrk8   0/1       ContainerCreating   0          5s
+helloworld-dep-765746cb75-kjpvd   1/1       Running             0          2m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-765746cb75-5ssqw   1/1       Running   0          1m
+helloworld-dep-765746cb75-cwzk4   1/1       Running   0          1m
+helloworld-dep-765746cb75-dslm7   1/1       Running   0          1m
+helloworld-dep-765746cb75-kcrk8   1/1       Running   0          1m
+helloworld-dep-765746cb75-kjpvd   1/1       Running   0          3m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl scale deploy helloworld-dep --replicas 10
+deployment "helloworld-dep" scaled
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS              RESTARTS   AGE
+helloworld-dep-765746cb75-2hfvh   1/1       Running             0          15s
+helloworld-dep-765746cb75-2nvv7   0/1       ContainerCreating   0          15s
+helloworld-dep-765746cb75-4qjpc   0/1       ContainerCreating   0          15s
+helloworld-dep-765746cb75-5ssqw   1/1       Running             0          1m
+helloworld-dep-765746cb75-6hsnt   0/1       ContainerCreating   0          15s
+helloworld-dep-765746cb75-cwzk4   1/1       Running             0          1m
+helloworld-dep-765746cb75-dslm7   1/1       Running             0          1m
+helloworld-dep-765746cb75-kcrk8   1/1       Running             0          1m
+helloworld-dep-765746cb75-kjpvd   1/1       Running             0          4m
+helloworld-dep-765746cb75-mq9km   1/1       Running             0          15s
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl rollout status deploy helloworld-dep
+deployment "helloworld-dep" successfully rolled out
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl set image deploy helloworld-dep web=nginx:alpine
+deployment "helloworld-dep" image updated
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl rollout status deploy helloworld-dep
+Waiting for rollout to finish: 2 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 2 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 4 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 4 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 4 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 6 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 6 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 6 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 8 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 8 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 9 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 9 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 9 out of 10 new replicas have been updated...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 1 old replicas are pending termination...
+Waiting for rollout to finish: 9 of 10 updated replicas are available...
+deployment "helloworld-dep" successfully rolled out
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-7d87768ff8-2nq9h   1/1       Running   0          30s
+helloworld-dep-7d87768ff8-64668   1/1       Running   0          1m
+helloworld-dep-7d87768ff8-6gjqx   1/1       Running   0          27s
+helloworld-dep-7d87768ff8-c75rd   1/1       Running   0          22s
+helloworld-dep-7d87768ff8-dk6jz   1/1       Running   0          36s
+helloworld-dep-7d87768ff8-n8rzq   1/1       Running   0          43s
+helloworld-dep-7d87768ff8-prshl   1/1       Running   0          53s
+helloworld-dep-7d87768ff8-qctt4   1/1       Running   0          49s
+helloworld-dep-7d87768ff8-sznjj   1/1       Running   0          1m
+helloworld-dep-7d87768ff8-z68xc   1/1       Running   0          1m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get deploy helloworld-dep -o yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  creationTimestamp: 2019-05-15T11:05:56Z
+  generation: 4
+  labels:
+    app: helloworld
+  name: helloworld-dep
+  namespace: default
+  resourceVersion: "1711005"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/helloworld-dep
+  uid: 69ae985a-7701-11e9-b612-080027326ca6
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: helloworld
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: helloworld
+    spec:
+      containers:
+      - image: nginx:alpine
+        imagePullPolicy: Always
+        name: web
+        ports:
+        - containerPort: 80
+          name: nginxport
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 10
+  conditions:
+  - lastTransitionTime: 2019-05-15T11:10:17Z
+    lastUpdateTime: 2019-05-15T11:10:17Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 4
+  readyReplicas: 10
+  replicas: 10
+  updatedReplicas: 10
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+helloworld-dep-7d87768ff8-2nq9h   1/1       Running   0          8m
+helloworld-dep-7d87768ff8-64668   1/1       Running   0          9m
+helloworld-dep-7d87768ff8-6gjqx   1/1       Running   0          8m
+helloworld-dep-7d87768ff8-c75rd   1/1       Running   0          8m
+helloworld-dep-7d87768ff8-dk6jz   1/1       Running   0          8m
+helloworld-dep-7d87768ff8-n8rzq   1/1       Running   0          9m
+helloworld-dep-7d87768ff8-prshl   1/1       Running   0          9m
+helloworld-dep-7d87768ff8-qctt4   1/1       Running   0          9m
+helloworld-dep-7d87768ff8-sznjj   1/1       Running   0          9m
+helloworld-dep-7d87768ff8-z68xc   1/1       Running   0          9m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods --show-labels
+NAME                              READY     STATUS    RESTARTS   AGE       LABELS
+helloworld-dep-7d87768ff8-2nq9h   1/1       Running   0          8m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-64668   1/1       Running   0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-6gjqx   1/1       Running   0          8m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-c75rd   1/1       Running   0          8m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-dk6jz   1/1       Running   0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-n8rzq   1/1       Running   0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-prshl   1/1       Running   0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-qctt4   1/1       Running   0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-sznjj   1/1       Running   0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-z68xc   1/1       Running   0          9m        app=helloworld,pod-template-hash=3843324994
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl apply -f pod/pod-helloworld.yml
+pod "my-nginx" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods --show-labels
+NAME                              READY     STATUS              RESTARTS   AGE       LABELS
+helloworld-dep-7d87768ff8-2nq9h   1/1       Running             0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-64668   1/1       Running             0          10m       app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-6gjqx   1/1       Running             0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-c75rd   1/1       Running             0          9m        app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-dk6jz   1/1       Running             0          10m       app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-n8rzq   1/1       Running             0          10m       app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-prshl   1/1       Running             0          10m       app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-qctt4   1/1       Running             0          10m       app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-sznjj   1/1       Running             0          10m       app=helloworld,pod-template-hash=3843324994
+helloworld-dep-7d87768ff8-z68xc   1/1       Running             0          10m       app=helloworld,pod-template-hash=3843324994
+my-nginx                          0/1       ContainerCreating   0          5s        app=helloworld
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete deployment helloworl-dep
+Error from server (NotFound): deployments.extensions "helloworl-dep" not found
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete deployment helloworld-dep
+deployment "helloworld-dep" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl create -f dep/dep-helloworld.yml
+deployment "helloworld-dep" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl create -f dep/dep-helloworld.yml
+Error from server (AlreadyExists): error when creating "dep/dep-helloworld.yml": deployments.extensions "helloworld-dep" already exists
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete -f dep/dep-helloworld.yml
+deployment "helloworld-dep" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl create -f dep/dep-helloworld.yml
+deployment "helloworld-dep" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete -f dep/dep-helloworld.yml
+deployment "helloworld-dep" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl apply -f dep/dep-helloworld.yml
+deployment "helloworld-dep" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl apply -f dep/dep-helloworld.yml
+deployment "helloworld-dep" unchanged
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl apply -f dep/dep-helloworld.yml
+deployment "helloworld-dep" configured
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete -f dep/dep-helloworld.yml
+deployment "helloworld-dep" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl create -f dep/dep-helloworld.yml
+deployment "helloworld-dep" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl apply -f dep/dep-helloworld.yml
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+deployment "helloworld-dep" configured
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete -f dep/dep-helloworld.yml
+deployment "helloworld-dep" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl --help | grep api
+  api-versions   Print the supported API versions on the server, in the form of "group/version" Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl api-versions
+admissionregistration.k8s.io/v1alpha1
+admissionregistration.k8s.io/v1beta1
+apiextensions.k8s.io/v1beta1
+apiregistration.k8s.io/v1beta1
+apps/v1
+apps/v1beta1
+apps/v1beta2
+authentication.k8s.io/v1
+authentication.k8s.io/v1beta1
+authorization.k8s.io/v1
+authorization.k8s.io/v1beta1
+autoscaling/v1
+autoscaling/v2beta1
+batch/v1
+batch/v1beta1
+batch/v2alpha1
+certificates.k8s.io/v1beta1
+events.k8s.io/v1beta1
+extensions/v1beta1
+metrics.k8s.io/v1beta1
+networking.k8s.io/v1
+policy/v1beta1
+rbac.authorization.k8s.io/v1
+rbac.authorization.k8s.io/v1alpha1
+rbac.authorization.k8s.io/v1beta1
+scheduling.k8s.io/v1alpha1
+settings.k8s.io/v1alpha1
+storage.k8s.io/v1
+storage.k8s.io/v1alpha1
+storage.k8s.io/v1beta1
+v1
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ
