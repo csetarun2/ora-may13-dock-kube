@@ -1,0 +1,665 @@
+Dell lap@Dell ~                                                                                 
+λ kubectl get pods                                                                              
+NAME       READY     STATUS    RESTARTS   AGE                                                   
+my-nginx   1/1       Running   1          16h                                                   
+Dell lap@Dell ~                                                                                 
+λ kubectl get deploy                                                                            
+No resources found.                                                                             
+Dell lap@Dell ~                                                                                 
+λ                                                                                               
+Dell lap@Dell ~                                                                                 
+λ cd docker-workshop/                                                                           
+Dell lap@Dell ~/docker-workshop                                                                 
+λ cd may                                                                                        
+may13/ may9/                                                                                    
+Dell lap@Dell ~/docker-workshop                                                                 
+λ cd may13/                                                                                     
+Dell lap@Dell ~/docker-workshop/may13                                                           
+λ                                                                                               
+Dell lap@Dell ~/docker-workshop/may13                                                           
+λ cd k8s/                                                                                       
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ cd pod/                                                                                       
+Dell lap@Dell ~/docker-workshop/may13/k8s/pod                                                   
+λ cd ..                                                                                         
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl apply dep/dep-helloworld.yml                                                          
+error: Unexpected args: [dep/dep-helloworld.yml]                                                
+See 'kubectl apply -h' for help and examples.                                                   
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl apply -f dep/dep-helloworld.yml                                                       
+deployment "helloworld-dep" created                                                             
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ                                                                                               
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods                                                                              
+NAME                              READY     STATUS    RESTARTS   AGE                            
+helloworld-dep-5cdb68cc76-4vvlw   1/1       Running   0          11s                            
+my-nginx                          1/1       Running   1          16h                            
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout histroy deploy helloworld-dep                                                 
+error: unknown command "histroy deploy helloworld-dep"                                          
+See 'kubectl rollout -h' for help and examples.                                                 
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep                                                 
+deployments "helloworld-dep"                                                                    
+REVISION  CHANGE-CAUSE                                                                          
+1         <none>                                                                                
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep --revision 1                                    
+deployments "helloworld-dep" with revision #1                                                   
+Pod Template:                                                                                   
+  Labels:       app=helloworld                                                                  
+        pod-template-hash=1786247732                                                            
+  Containers:                                                                                   
+   web:                                                                                         
+    Image:      nginx:alpine                                                                    
+    Port:       80/TCP                                                                          
+    Environment:        <none>                                                                  
+    Mounts:     <none>                                                                          
+  Volumes:      <none>                                                                          
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl apply -f dep/dep-helloworld.yml                                                       
+deployment "helloworld-dep" configured                                                          
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep                                                 
+deployments "helloworld-dep"                                                                    
+REVISION  CHANGE-CAUSE                                                                          
+1         <none>                                                                                
+2         <none>                                                                                
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep --revision 2                                    
+deployments "helloworld-dep" with revision #2                                                   
+Pod Template:                                                                                   
+  Labels:       app=helloworld                                                                  
+        pod-template-hash=266758161                                                             
+  Containers:                                                                                   
+   web:                                                                                         
+    Image:      nginx                                                                           
+    Port:       80/TCP                                                                          
+    Environment:        <none>                                                                  
+    Mounts:     <none>                                                                          
+  Volumes:      <none>                                                                          
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout undo deploy helloworld-dep --to-revision 1                                    
+deployment "helloworld-dep"                                                                     
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep                                                 
+deployments "helloworld-dep"                                                                    
+REVISION  CHANGE-CAUSE                                                                          
+2         <none>                                                                                
+3         <none>                                                                                
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout undo deploy helloworld-dep --to-revision 3                                    
+deployment "helloworld-dep"                                                                     
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep                                                 
+deployments "helloworld-dep"                                                                    
+REVISION  CHANGE-CAUSE                                                                          
+2         <none>                                                                                
+3         <none>                                                                                
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep --revision 2                                    
+deployments "helloworld-dep" with revision #2                                                   
+Pod Template:                                                                                   
+  Labels:       app=helloworld                                                                  
+        pod-template-hash=266758161                                                             
+  Containers:                                                                                   
+   web:                                                                                         
+    Image:      nginx                                                                           
+    Port:       80/TCP                                                                          
+    Environment:        <none>                                                                  
+    Mounts:     <none>                                                                          
+  Volumes:      <none>                                                                          
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep --revision 3                                    
+deployments "helloworld-dep" with revision #3                                                   
+Pod Template:                                                                                   
+  Labels:       app=helloworld                                                                  
+        pod-template-hash=1786247732                                                            
+  Containers:                                                                                   
+   web:                                                                                         
+    Image:      nginx:alpine                                                                    
+    Port:       80/TCP                                                                          
+    Environment:        <none>                                                                  
+    Mounts:     <none>                                                                          
+  Volumes:      <none>                                                                          
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep                                                 
+deployments "helloworld-dep"                                                                    
+REVISION  CHANGE-CAUSE                                                                          
+2         <none>                                                                                
+3         <none>                                                                                
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get deploy                                                                            
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE                               
+helloworld-dep   1         1         1            1           12m                               
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get rs                                                                                
+NAME                        DESIRED   CURRENT   READY     AGE                                   
+helloworld-dep-5cdb68cc76   1         1         1         12m                                   
+helloworld-dep-6bbc9d5b5    0         0         0         10m                                   
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods                                                                              
+NAME                              READY     STATUS    RESTARTS   AGE                            
+helloworld-dep-5cdb68cc76-kdk9k   1/1       Running   0          19m                            
+my-nginx                          1/1       Running   1          17h                            
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout undo deploy helloworld-dep --to-revision 2                                    
+deployment "helloworld-dep"                                                                     
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods                                                                              
+NAME                              READY     STATUS        RESTARTS   AGE                        
+helloworld-dep-5cdb68cc76-kdk9k   0/1       Terminating   0          20m                        
+helloworld-dep-6bbc9d5b5-cns2w    1/1       Running       0          4s                         
+my-nginx                          1/1       Running       1          17h                        
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl rollout history deploy helloworld-dep                                                 
+deployments "helloworld-dep"                                                                    
+REVISION  CHANGE-CAUSE                                                                          
+3         <none>                                                                                
+4         <none>                                                                                
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get deploy helloworld-dep -o yaml                                                     
+apiVersion: extensions/v1beta1                                                                  
+kind: Deployment                                                                                
+metadata:                                                                                       
+  annotations:                                                                                  
+    deployment.kubernetes.io/revision: "4"                                                      
+    kubectl.kubernetes.io/last-applied-configuration: |                                         
+      {"apiVersion":"extensions/v1beta1","kind":"Deployment","metadata":{"annotations":{},"name"
+:"helloworld-dep","namespace":"default"},"spec":{"replicas":1,"template":{"metadata":{"labels":{
+"app":"helloworld"}},"spec":{"containers":[{"image":"nginx","name":"web","ports":[{"containerPor
+t":80,"name":"nginxport"}]}]}}}}                                                                
+  creationTimestamp: 2019-05-16T04:19:49Z                                                       
+  generation: 5                                                                                 
+  labels:                                                                                       
+    app: helloworld                                                                             
+  name: helloworld-dep                                                                          
+  namespace: default                                                                            
+  resourceVersion: "1756963"                                                                    
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/helloworld-dep              
+  uid: d8508218-7791-11e9-bc85-080027326ca6                                                     
+spec:                                                                                           
+  replicas: 1                                                                                   
+  selector:                                                                                     
+    matchLabels:                                                                                
+      app: helloworld                                                                           
+  strategy:                                                                                     
+    rollingUpdate:                                                                              
+      maxSurge: 1                                                                               
+      maxUnavailable: 1                                                                         
+    type: RollingUpdate                                                                         
+  template:                                                                                     
+    metadata:                                                                                   
+      creationTimestamp: null                                                                   
+      labels:                                                                                   
+        app: helloworld                                                                         
+    spec:                                                                                       
+      containers:                                                                               
+      - image: nginx                                                                            
+        imagePullPolicy: IfNotPresent                                                           
+        name: web                                                                               
+        ports:                                                                                  
+        - containerPort: 80                                                                     
+          name: nginxport                                                                       
+          protocol: TCP                                                                         
+        resources: {}                                                                           
+        terminationMessagePath: /dev/termination-log                                            
+        terminationMessagePolicy: File                                                          
+      dnsPolicy: ClusterFirst                                                                   
+      restartPolicy: Always                                                                     
+      schedulerName: default-scheduler                                                          
+      securityContext: {}                                                                       
+      terminationGracePeriodSeconds: 30                                                         
+status:                                                                                         
+  availableReplicas: 1                                                                          
+  conditions:                                                                                   
+  - lastTransitionTime: 2019-05-16T04:19:49Z                                                    
+    lastUpdateTime: 2019-05-16T04:19:49Z                                                        
+    message: Deployment has minimum availability.                                               
+    reason: MinimumReplicasAvailable                                                            
+    status: "True"                                                                              
+    type: Available                                                                             
+  observedGeneration: 5                                                                         
+  readyReplicas: 1                                                                              
+  replicas: 1                                                                                   
+  updatedReplicas: 1                                                                            
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods                                                                              
+NAME                             READY     STATUS    RESTARTS   AGE                             
+helloworld-dep-6bbc9d5b5-cns2w   1/1       Running   0          6m                              
+my-nginx                         1/1       Running   1          17h                             
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl delete pod my-nginx                                                                   
+pod "my-nginx" deleted                                                                          
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ                                                                                               
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods                                                                              
+NAME                             READY     STATUS        RESTARTS   AGE                         
+helloworld-dep-6bbc9d5b5-cns2w   1/1       Running       0          7m                          
+my-nginx                         0/1       Terminating   1          17h                         
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl scale deploy helloworld-dep --replicas 2                                              
+deployment "helloworld-dep" scaled                                                              
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods                                                                              
+NAME                             READY     STATUS    RESTARTS   AGE                             
+helloworld-dep-6bbc9d5b5-79x95   1/1       Running   0          6s                              
+helloworld-dep-6bbc9d5b5-cns2w   1/1       Running   0          7m                              
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods -o wide                                                                      
+NAME                             READY     STATUS    RESTARTS   AGE       IP            NODE    
+helloworld-dep-6bbc9d5b5-79x95   1/1       Running   0          16s       172.17.0.6    minikube
+                                                                                                
+helloworld-dep-6bbc9d5b5-cns2w   1/1       Running   0          7m        172.17.0.15   minikube
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl apply -f service/svc-helloworld.yml                                                   
+service "hw-svc" created                                                                        
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get svc                                                                               
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE                     
+hw-svc       NodePort    10.110.144.92   <none>        8888:31001/TCP   26s                     
+kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP          155d                    
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl describe svc hw-svc                                                                   
+Name:                     hw-svc                                                                
+Namespace:                default                                                               
+Labels:                   <none>                                                                
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","k
+ind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"port
+s":[{"nodePort":31001,"port":8888,...                                                           
+Selector:                 app=helloworld                                                        
+Type:                     NodePort                                                              
+IP:                       10.110.144.92                                                         
+Port:                     <unset>  8888/TCP                                                     
+TargetPort:               nginxport/TCP                                                         
+NodePort:                 <unset>  31001/TCP                                                    
+Endpoints:                172.17.0.15:80,172.17.0.6:80                                          
+Session Affinity:         None                                                                  
+External Traffic Policy:  Cluster                                                               
+Events:                   <none>                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ                                                                                               
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl scale deploy helloworld-dep --replicas 1                                              
+deployment "helloworld-dep" scaled                                                              
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl describe svc hw-svc                                                                   
+Name:                     hw-svc                                                                
+Namespace:                default                                                               
+Labels:                   <none>                                                                
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","k
+ind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"port
+s":[{"nodePort":31001,"port":8888,...                                                           
+Selector:                 app=helloworld                                                        
+Type:                     NodePort                                                              
+IP:                       10.110.144.92                                                         
+Port:                     <unset>  8888/TCP                                                     
+TargetPort:               nginxport/TCP                                                         
+NodePort:                 <unset>  31001/TCP                                                    
+Endpoints:                172.17.0.15:80                                                        
+Session Affinity:         None                                                                  
+External Traffic Policy:  Cluster                                                               
+Events:                   <none>                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods -o wide                                                                      
+NAME                             READY     STATUS    RESTARTS   AGE       IP            NODE    
+helloworld-dep-6bbc9d5b5-cns2w   1/1       Running   0          26m       172.17.0.15   minikube
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl scale deploy helloworld-dep --replicas 0                                              
+deployment "helloworld-dep" scaled                                                              
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl describe svc hw-svc                                                                   
+Name:                     hw-svc                                                                
+Namespace:                default                                                               
+Labels:                   <none>                                                                
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","k
+ind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"port
+s":[{"nodePort":31001,"port":8888,...                                                           
+Selector:                 app=helloworld                                                        
+Type:                     NodePort                                                              
+IP:                       10.110.144.92                                                         
+Port:                     <unset>  8888/TCP                                                     
+TargetPort:               nginxport/TCP                                                         
+NodePort:                 <unset>  31001/TCP                                                    
+Endpoints:                <none>                                                                
+Session Affinity:         None                                                                  
+External Traffic Policy:  Cluster                                                               
+Events:                   <none>                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl scale deploy helloworld-dep --replicas 1                                              
+deployment "helloworld-dep" scaled                                                              
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl describe svc hw-svc                                                                   
+Name:                     hw-svc                                                                
+Namespace:                default                                                               
+Labels:                   <none>                                                                
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","k
+ind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"port
+s":[{"nodePort":31001,"port":8888,...                                                           
+Selector:                 app=helloworld                                                        
+Type:                     NodePort                                                              
+IP:                       10.110.144.92                                                         
+Port:                     <unset>  8888/TCP                                                     
+TargetPort:               nginxport/TCP                                                         
+NodePort:                 <unset>  31001/TCP                                                    
+Endpoints:                172.17.0.6:80                                                         
+Session Affinity:         None                                                                  
+External Traffic Policy:  Cluster                                                               
+Events:                   <none>                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ minikube ip                                                                                   
+192.168.99.128                                                                                  
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl scale deploy helloworld-dep --replicas 2                                              
+deployment "helloworld-dep" scaled                                                              
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl describe svc hw-svc                                                                   
+Name:                     hw-svc                                                                
+Namespace:                default                                                               
+Labels:                   <none>                                                                
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","k
+ind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"port
+s":[{"nodePort":31001,"port":8888,...                                                           
+Selector:                 app=helloworld                                                        
+Type:                     NodePort                                                              
+IP:                       10.110.144.92                                                         
+Port:                     <unset>  8888/TCP                                                     
+TargetPort:               nginxport/TCP                                                         
+NodePort:                 <unset>  31001/TCP                                                    
+Endpoints:                172.17.0.15:80,172.17.0.6:80                                          
+Session Affinity:         None                                                                  
+External Traffic Policy:  Cluster                                                               
+Events:                   <none>                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ                                                                                               
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods -o wide                                                                      
+NAME                             READY     STATUS    RESTARTS   AGE       IP            NODE    
+helloworld-dep-6bbc9d5b5-hncxr   1/1       Running   0          4m        172.17.0.15   minikube
+                                                                                                
+helloworld-dep-6bbc9d5b5-xltd5   1/1       Running   0          9m        172.17.0.6    minikube
+                                                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl scale deploy helloworld-dep --replicas 5                                              
+deployment "helloworld-dep" scaled                                                              
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get pods -o wide                                                                      
+NAME                             READY     STATUS              RESTARTS   AGE       IP          
+  NODE                                                                                          
+helloworld-dep-6bbc9d5b5-dhqzm   1/1       Running             0          3s        172.17.0.16 
+  minikube                                                                                      
+helloworld-dep-6bbc9d5b5-hncxr   1/1       Running             0          8m        172.17.0.15 
+  minikube                                                                                      
+helloworld-dep-6bbc9d5b5-s6jfx   0/1       ContainerCreating   0          3s        <none>      
+  minikube                                                                                      
+helloworld-dep-6bbc9d5b5-skd9h   0/1       ContainerCreating   0          3s        <none>      
+  minikube                                                                                      
+helloworld-dep-6bbc9d5b5-xltd5   1/1       Running             0          13m       172.17.0.6  
+  minikube                                                                                      
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl describe svc hw-svc                                                                   
+Name:                     hw-svc                                                                
+Namespace:                default                                                               
+Labels:                   <none>                                                                
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","k
+ind":"Service","metadata":{"annotations":{},"name":"hw-svc","namespace":"default"},"spec":{"port
+s":[{"nodePort":31001,"port":8888,...                                                           
+Selector:                 app=helloworld                                                        
+Type:                     NodePort                                                              
+IP:                       10.110.144.92                                                         
+Port:                     <unset>  8888/TCP                                                     
+TargetPort:               nginxport/TCP                                                         
+NodePort:                 <unset>  31001/TCP                                                    
+Endpoints:                172.17.0.15:80,172.17.0.16:80,172.17.0.17:80 + 2 more...              
+Session Affinity:         None                                                                  
+External Traffic Policy:  Cluster                                                               
+Events:                   <none>                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep                                                          
+service "helloworld-dep" exposed                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get svc                                                                               
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE                 
+helloworld-dep   ClusterIP   10.97.118.129   <none>        80/TCP           9s                  
+hw-svc           NodePort    10.110.144.92   <none>        8888:31001/TCP   22m                 
+kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP          155d                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort                                          
+Error from server (AlreadyExists): services "helloworld-dep" already exists                     
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort --name s1                                
+service "s1" exposed                                                                            
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get svc                                                                               
+NAME             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE                
+helloworld-dep   ClusterIP   10.97.118.129    <none>        80/TCP           41s                
+hw-svc           NodePort    10.110.144.92    <none>        8888:31001/TCP   23m                
+kubernetes       ClusterIP   10.96.0.1        <none>        443/TCP          155d               
+s1               NodePort    10.104.108.198   <none>        80:30180/TCP     4s                 
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort --name s2                                
+service "s2" exposed                                                                            
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get svc                                                                               
+NAME             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE                
+helloworld-dep   ClusterIP   10.97.118.129    <none>        80/TCP           55s                
+hw-svc           NodePort    10.110.144.92    <none>        8888:31001/TCP   23m                
+kubernetes       ClusterIP   10.96.0.1        <none>        443/TCP          155d               
+s1               NodePort    10.104.108.198   <none>        80:30180/TCP     18s                
+s2               NodePort    10.103.188.40    <none>        80:31607/TCP     3s                 
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort --name s2 --help                         
+Expose a resource as a new Kubernetes service.                                                  
+                                                                                                
+Looks up a deployment, service, replica set, replication controller or pod by                   
+name and uses the selector for that resource as the selector for a new service                  
+on the specified port. A deployment or replica set will be exposed as a service                 
+only if its selector is convertible to a selector that service supports, i.e.                   
+when the selector contains only the matchLabels component. Note that if no port                 
+is specified via --port and the exposed resource has multiple ports, all will be                
+re-used by the new service. Also if no labels are specified, the new service                    
+will re-use the labels from the resource it exposes.                                            
+                                                                                                
+Possible resources include (case insensitive):                                                  
+                                                                                                
+pod (po), service (svc), replicationcontroller (rc), deployment (deploy),                       
+replicaset (rs)                                                                                 
+                                                                                                
+Examples:                                                                                       
+  # Create a service for a replicated nginx, which serves on port 80 and                        
+connects to the containers on port 8000.                                                        
+  kubectl expose rc nginx --port=80 --target-port=8000                                          
+                                                                                                
+  # Create a service for a replication controller identified by type and name                   
+specified in "nginx-controller.yaml", which serves on port 80 and connects to                   
+the containers on port 8000.                                                                    
+  kubectl expose -f nginx-controller.yaml --port=80 --target-port=8000                          
+                                                                                                
+  # Create a service for a pod valid-pod, which serves on port 444 with the name                
+"frontend"                                                                                      
+  kubectl expose pod valid-pod --port=444 --name=frontend                                       
+                                                                                                
+  # Create a second service based on the above service, exposing the container                  
+port 8443 as port 443 with the name "nginx-https"                                               
+  kubectl expose service nginx --port=443 --target-port=8443 --name=nginx-https                 
+                                                                                                
+  # Create a service for a replicated streaming application on port 4100                        
+balancing UDP traffic and named 'video-stream'.                                                 
+  kubectl expose rc streamer --port=4100 --protocol=udp --name=video-stream                     
+                                                                                                
+  # Create a service for a replicated nginx using replica set, which serves on                  
+port 80 and connects to the containers on port 8000.                                            
+  kubectl expose rs nginx --port=80 --target-port=8000                                          
+                                                                                                
+  # Create a service for an nginx deployment, which serves on port 80 and                       
+connects to the containers on port 8000.                                                        
+  kubectl expose deployment nginx --port=80 --target-port=8000                                  
+                                                                                                
+Options:                                                                                        
+      --allow-missing-template-keys=true: If true, ignore any errors in                         
+templates when a field or map key is missing in the template. Only applies to                   
+golang and jsonpath output formats.                                                             
+      --cluster-ip='': ClusterIP to be assigned to the service. Leave empty to                  
+auto-allocate, or set to 'None' to create a headless service.                                   
+      --container-port='': Synonym for --target-port                                            
+      --dry-run=false: If true, only print the object that would be sent,                       
+without sending it.                                                                             
+      --external-ip='': Additional external IP address (not managed by                          
+Kubernetes) to accept for the service. If this IP is routed to a node, the                      
+service can be accessed by this IP in addition to its generated service IP.                     
+  -f, --filename=[]: Filename, directory, or URL to files identifying the                       
+resource to expose a service                                                                    
+      --generator='service/v2': The name of the API generator to use. There are                 
+2 generators: 'service/v1' and 'service/v2'. The only difference between them is                
+that service port in v1 is named 'default', while it is left unnamed in v2.                     
+Default is 'service/v2'.                                                                        
+  -l, --labels='': Labels to apply to the service created by this call.                         
+      --load-balancer-ip='': IP to assign to the Load Balancer. If empty, an                    
+ephemeral IP will be created and used (cloud-provider specific).                                
+      --name='': The name for the newly created object.                                         
+      --no-headers=false: When using the default or custom-column output format,                
+don't print headers (default print headers).                                                    
+  -o, --output='': Output format. One of:                                                       
+json|yaml|wide|name|custom-columns=...|custom-columns-file=...|go-template=...|go-template-file=
+...|jsonpath=...|jsonpath-file=...                                                              
+See custom columns                                                                              
+[http://kubernetes.io/docs/user-guide/kubectl-overview/#custom-columns], golang                 
+template [http://golang.org/pkg/text/template/#pkg-overview] and jsonpath                       
+template [http://kubernetes.io/docs/user-guide/jsonpath].                                       
+      --overrides='': An inline JSON override for the generated object. If this                 
+is non-empty, it is used to override the generated object. Requires that the                    
+object supply a valid apiVersion field.                                                         
+      --port='': The port that the service should serve on. Copied from the                     
+resource being exposed, if unspecified                                                          
+      --protocol='': The network protocol for the service to be created. Default                
+is 'TCP'.                                                                                       
+      --record=false: Record current kubectl command in the resource annotation.                
+If set to false, do not record the command. If set to true, record the command.                 
+If not set, default to updating the existing annotation value only if one                       
+already exists.                                                                                 
+  -R, --recursive=false: Process the directory used in -f, --filename                           
+recursively. Useful when you want to manage related manifests organized within                  
+the same directory.                                                                             
+      --save-config=false: If true, the configuration of current object will be                 
+saved in its annotation. Otherwise, the annotation will be unchanged. This flag                 
+is useful when you want to perform kubectl apply on this object in the future.                  
+      --selector='': A label selector to use for this service. Only                             
+equality-based selector requirements are supported. If empty (the default) infer                
+the selector from the replication controller or replica set.)                                   
+      --session-affinity='': If non-empty, set the session affinity for the                     
+service to this; legal values: 'None', 'ClientIP'                                               
+  -a, --show-all=false: When printing, show all resources (default hide                         
+terminated pods.)                                                                               
+      --show-labels=false: When printing, show all labels as the last column                    
+(default hide labels column)                                                                    
+      --sort-by='': If non-empty, sort list types using this field                              
+specification.  The field specification is expressed as a JSONPath expression                   
+(e.g. '{.metadata.name}'). The field in the API resource specified by this                      
+JSONPath expression must be an integer or a string.                                             
+      --target-port='': Name or number for the port on the container that the                   
+service should direct traffic to. Optional.                                                     
+      --template='': Template string or path to template file to use when                       
+-o=go-template, -o=go-template-file. The template format is golang templates                    
+[http://golang.org/pkg/text/template/#pkg-overview].                                            
+      --type='': Type for this service: ClusterIP, NodePort, LoadBalancer, or                   
+ExternalName. Default is 'ClusterIP'.                                                           
+                                                                                                
+Usage:                                                                                          
+  kubectl expose (-f FILENAME | TYPE NAME) [--port=port] [--protocol=TCP|UDP]                   
+[--target-port=number-or-name] [--name=name]                                                    
+[--external-ip=external-ip-of-service] [--type=type] [options]                                  
+                                                                                                
+Use "kubectl options" for a list of global command-line options (applies to all                 
+commands).                                                                                      
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort --name s2 --help | grep nodeport         
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort --name s2 --help | grep node             
+      --external-ip='': Additional external IP address (not managed by Kubernetes) to accept for
+ the service. If this IP is routed to a node, the service can be accessed by this IP in addition
+ to its generated service IP.                                                                   
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort --name s2 --help | grep -i port          
+Looks up a deployment, service, replica set, replication controller or pod by name and uses the 
+selector for that resource as the selector for a new service on the specified port. A deployment
+ or replica set will be exposed as a service only if its selector is convertible to a selector t
+hat service supports, i.e. when the selector contains only the matchLabels component. Note that 
+if no port is specified via --port and the exposed resource has multiple ports, all will be re-u
+sed by the new service. Also if no labels are specified, the new service will re-use the labels 
+from the resource it exposes.                                                                   
+  # Create a service for a replicated nginx, which serves on port 80 and connects to the contain
+ers on port 8000.                                                                               
+  kubectl expose rc nginx --port=80 --target-port=8000                                          
+  # Create a service for a replication controller identified by type and name specified in "ngin
+x-controller.yaml", which serves on port 80 and connects to the containers on port 8000.        
+  kubectl expose -f nginx-controller.yaml --port=80 --target-port=8000                          
+  # Create a service for a pod valid-pod, which serves on port 444 with the name "frontend"     
+  kubectl expose pod valid-pod --port=444 --name=frontend                                       
+  # Create a second service based on the above service, exposing the container port 8443 as port
+ 443 with the name "nginx-https"                                                                
+  kubectl expose service nginx --port=443 --target-port=8443 --name=nginx-https                 
+  # Create a service for a replicated streaming application on port 4100 balancing UDP traffic a
+nd named 'video-stream'.                                                                        
+  kubectl expose rc streamer --port=4100 --protocol=udp --name=video-stream                     
+  # Create a service for a replicated nginx using replica set, which serves on port 80 and conne
+cts to the containers on port 8000.                                                             
+  kubectl expose rs nginx --port=80 --target-port=8000                                          
+  # Create a service for an nginx deployment, which serves on port 80 and connects to the contai
+ners on port 8000.                                                                              
+  kubectl expose deployment nginx --port=80 --target-port=8000                                  
+      --container-port='': Synonym for --target-port                                            
+      --generator='service/v2': The name of the API generator to use. There are 2 generators: 's
+ervice/v1' and 'service/v2'. The only difference between them is that service port in v1 is name
+d 'default', while it is left unnamed in v2. Default is 'service/v2'.                           
+      --port='': The port that the service should serve on. Copied from the resource being expos
+ed, if unspecified                                                                              
+      --selector='': A label selector to use for this service. Only equality-based selector requ
+irements are supported. If empty (the default) infer the selector from the replication controlle
+r or replica set.)                                                                              
+      --target-port='': Name or number for the port on the container that the service should dir
+ect traffic to. Optional.                                                                       
+      --type='': Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName. Defa
+ult is 'ClusterIP'.                                                                             
+  kubectl expose (-f FILENAME | TYPE NAME) [--port=port] [--protocol=TCP|UDP] [--target-port=num
+ber-or-name] [--name=name] [--external-ip=external-ip-of-service] [--type=type] [options]       
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort --name s2 32002                          
+Error from server (AlreadyExists): services "s2" already exists                                 
+Error from server (NotFound): deployments.extensions "32002" not found                          
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl expose deploy helloworld-dep --type NodePort --name s3 32002                          
+service "s3" exposed                                                                            
+Error from server (NotFound): deployments.extensions "32002" not found                          
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl get svc                                                                               
+NAME             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE                
+helloworld-dep   ClusterIP   10.97.118.129    <none>        80/TCP           4m                 
+hw-svc           NodePort    10.110.144.92    <none>        8888:31001/TCP   27m                
+kubernetes       ClusterIP   10.96.0.1        <none>        443/TCP          155d               
+s1               NodePort    10.104.108.198   <none>        80:30180/TCP     3m                 
+s2               NodePort    10.103.188.40    <none>        80:31607/TCP     3m                 
+s3               NodePort    10.103.30.85     <none>        80:32592/TCP     28s                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ kubectl delete svc s1 s2 s3 helloworld-dep                                                    
+service "s1" deleted                                                                            
+service "s2" deleted                                                                            
+service "s3" deleted                                                                            
+service "helloworld-dep" deleted                                                                
+Dell lap@Dell ~/docker-workshop/may13/k8s                                                       
+λ                                                                                               
+                                                                                                
