@@ -1,0 +1,399 @@
+Dell lap@Dell ~
+λ cd docker-workshop/
+Dell lap@Dell ~/docker-workshop
+λ cd may13/k8s/
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ cd blog/
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-db.yml
+deployment "blog-db-dep" created
+service "blog-db-svc" created
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get deploy
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+blog-db-dep      1         1         1            1           25s
+helloworld-dep   5         5         5            5           1d
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl delete deploy helloworld-dep
+deployment "helloworld-dep" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get deploy
+NAME          DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+blog-db-dep   1         1         1            1           1m
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get rs
+NAME                     DESIRED   CURRENT   READY     AGE
+blog-db-dep-7ff87fcccf   1         1         1         1m
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get pods
+NAME                           READY     STATUS    RESTARTS   AGE
+blog-db-dep-7ff87fcccf-x6899   1/1       Running   0          1m
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get pods -o wide
+NAME                           READY     STATUS    RESTARTS   AGE       IP           NODE
+blog-db-dep-7ff87fcccf-x6899   1/1       Running   0          2m        172.17.0.7   minikube
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get svc blog-db-dvc
+Error from server (NotFound): services "blog-db-dvc" not found
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get svc blog-db-svc
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+blog-db-svc   ClusterIP   10.100.88.167   <none>        8888/TCP   2m
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl describe svc blog-db-svc
+Name:              blog-db-svc
+Namespace:         default
+Labels:            <none>
+Annotations:       kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","kind":" ervice","metadata":{"annotations":{},"name":"blog-db-svc","namespace":"default"},"spec":{"ports :[{"port":8888,"protocol":"...
+Selector:          app=blog-db
+Type:              ClusterIP
+IP:                10.100.88.167
+Port:              <unset>  8888/TCP
+TargetPort:        blog-db-port/TCP
+Endpoints:         172.17.0.7:3306
+Session Affinity:  None
+Events:            <none>
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-ghost.yml
+service "blog-ghost-svc" created
+Error from server (BadRequest): error when creating "blog-ghost.yml": Deployment in version "v1 eta1" cannot be handled as a Deployment: v1beta1.Deployment: Spec: v1beta1.DeploymentSpec: Temp ate: v1.PodTemplateSpec: Spec: v1.PodSpec: Containers: []v1.Container: v1.Container: Env: []v1. nvVar: v1.EnvVar: Value: ReadString: expects " or n, parsing 1145 ...,"value":8... at {"apiVers on":"extensions/v1beta1","kind":"Deployment","metadata":{"annotations":{"kubectl.kubernetes.io/ ast-applied-configuration":"{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"me adata\":{\"annotations\":{},\"name\":\"blog-ghost-dep\",\"namespace\":\"default\"},\"spec\":{\" eplicas\":1,\"template\":{\"metadata\":{\"labels\":{\"app\":\"blog-ghost\"}},\"spec\":{\"contai ers\":[{\"env\":[{\"name\":\"database__client\",\"value\":\"mysql\"},{\"name\":\"database__conn ction__host\",\"value\":\"blog-db-svc\"},{\"name\":\"database__connection__port\",\"value\":888 },{\"name\":\"database__connection__user\",\"value\":\"root\"},{\"name\":\"database__connection _password\",\"value\":\"welcome\"}],\"image\":\"ghost:1-alpine\",\"name\":\"ghost\",\"ports\":[ \"containerPort\":2368,\"name\":\"blog-ghost-port\"}]}]}}}}\n"},"name":"blog-ghost-dep","namesp ce":"default"},"spec":{"replicas":1,"template":{"metadata":{"labels":{"app":"blog-ghost"}},"spe ":{"containers":[{"env":[{"name":"database__client","value":"mysql"},{"name":"database__connect on__host","value":"blog-db-svc"},{"name":"database__connection__port","value":8888},{"name":"da abase__connection__user","value":"root"},{"name":"database__connection__password","value":"welc me"}],"image":"ghost:1-alpine","name":"ghost","ports":[{"containerPort":2368,"name":"blog-ghost port"}]}]}}}}
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-ghost.yml
+service "blog-ghost-svc" unchanged
+Error from server (BadRequest): error when creating "blog-ghost.yml": Deployment in version "v1 eta1" cannot be handled as a Deployment: v1beta1.Deployment: Spec: v1beta1.DeploymentSpec: Temp ate: v1.PodTemplateSpec: Spec: v1.PodSpec: Containers: []v1.Container: v1.Container: Env: []v1. nvVar: v1.EnvVar: Value: ReadString: expects " or n, parsing 1145 ...,"value":8... at {"apiVers on":"extensions/v1beta1","kind":"Deployment","metadata":{"annotations":{"kubectl.kubernetes.io/ ast-applied-configuration":"{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"me adata\":{\"annotations\":{},\"name\":\"blog-ghost-dep\",\"namespace\":\"default\"},\"spec\":{\" eplicas\":1,\"template\":{\"metadata\":{\"labels\":{\"app\":\"blog-ghost\"}},\"spec\":{\"contai ers\":[{\"env\":[{\"name\":\"database__client\",\"value\":\"mysql\"},{\"name\":\"database__conn ction__host\",\"value\":\"blog-db-svc\"},{\"name\":\"database__connection__port\",\"value\":888 },{\"name\":\"database__connection__user\",\"value\":\"root\"},{\"name\":\"database__connection _password\",\"value\":\"welcome\"}],\"image\":\"ghost:1-alpine\",\"name\":\"ghost\",\"ports\":[ \"containerPort\":2368,\"name\":\"blog-ghost-port\"}]}]}}}}\n"},"name":"blog-ghost-dep","namesp ce":"default"},"spec":{"replicas":1,"template":{"metadata":{"labels":{"app":"blog-ghost"}},"spe ":{"containers":[{"env":[{"name":"database__client","value":"mysql"},{"name":"database__connect on__host","value":"blog-db-svc"},{"name":"database__connection__port","value":8888},{"name":"da abase__connection__user","value":"root"},{"name":"database__connection__password","value":"welc me"}],"image":"ghost:1-alpine","name":"ghost","ports":[{"containerPort":2368,"name":"blog-ghost port"}]}]}}}}
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl api-version
+Error: unknown command "api-version" for "kubectl"
+
+Did you mean this?
+        api-versions
+
+Run 'kubectl --help' for usage.
+error: unknown command "api-version" for "kubectl"
+
+Did you mean this?
+        api-versions
+
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl api-versions
+admissionregistration.k8s.io/v1alpha1
+admissionregistration.k8s.io/v1beta1
+apiextensions.k8s.io/v1beta1
+apiregistration.k8s.io/v1beta1
+apps/v1
+apps/v1beta1
+apps/v1beta2
+authentication.k8s.io/v1
+authentication.k8s.io/v1beta1
+authorization.k8s.io/v1
+authorization.k8s.io/v1beta1
+autoscaling/v1
+autoscaling/v2beta1
+batch/v1
+batch/v1beta1
+batch/v2alpha1
+certificates.k8s.io/v1beta1
+events.k8s.io/v1beta1
+extensions/v1beta1
+metrics.k8s.io/v1beta1
+networking.k8s.io/v1
+policy/v1beta1
+rbac.authorization.k8s.io/v1
+rbac.authorization.k8s.io/v1alpha1
+rbac.authorization.k8s.io/v1beta1
+scheduling.k8s.io/v1alpha1
+settings.k8s.io/v1alpha1
+storage.k8s.io/v1
+storage.k8s.io/v1alpha1
+storage.k8s.io/v1beta1
+v1
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-ghost.yml
+service "blog-ghost-svc" unchanged
+Error from server (BadRequest): error when creating "blog-ghost.yml": Deployment in version "v1 eta1" cannot be handled as a Deployment: v1beta1.Deployment: Spec: v1beta1.DeploymentSpec: Temp ate: v1.PodTemplateSpec: Spec: v1.PodSpec: Containers: []v1.Container: v1.Container: Env: []v1. nvVar: v1.EnvVar: Value: ReadString: expects " or n, parsing 1145 ...,"value":8... at {"apiVers on":"extensions/v1beta1","kind":"Deployment","metadata":{"annotations":{"kubectl.kubernetes.io/ ast-applied-configuration":"{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"me adata\":{\"annotations\":{},\"name\":\"blog-ghost-dep\",\"namespace\":\"default\"},\"spec\":{\" eplicas\":1,\"template\":{\"metadata\":{\"labels\":{\"app\":\"blog-ghost\"}},\"spec\":{\"contai ers\":[{\"env\":[{\"name\":\"database__client\",\"value\":\"mysql\"},{\"name\":\"database__conn ction__host\",\"value\":\"blog-db-svc\"},{\"name\":\"database__connection__port\",\"value\":888 },{\"name\":\"database__connection__user\",\"value\":\"root\"},{\"name\":\"database__connection _password\",\"value\":\"welcome\"}],\"image\":\"ghost:1-alpine\",\"name\":\"ghost\",\"ports\":[ \"containerPort\":2368,\"name\":\"blog-ghost-port\"}]}]}}}}\n"},"name":"blog-ghost-dep","namesp ce":"default"},"spec":{"replicas":1,"template":{"metadata":{"labels":{"app":"blog-ghost"}},"spe ":{"containers":[{"env":[{"name":"database__client","value":"mysql"},{"name":"database__connect on__host","value":"blog-db-svc"},{"name":"database__connection__port","value":8888},{"name":"da abase__connection__user","value":"root"},{"name":"database__connection__password","value":"welc me"}],"image":"ghost:1-alpine","name":"ghost","ports":[{"containerPort":2368,"name":"blog-ghost port"}]}]}}}}
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ diff blog-ghost.yml blog-db.yml
+4c4
+<   name: blog-ghost-dep
+---
+>   name: blog-db-dep
+10c10
+<         app: blog-ghost
+---
+>         app: blog-db
+13,14c13,14
+<       - name: ghost
+<         image: ghost:1-alpine
+---
+>       - name: db
+>         image: mysql:5.7
+16,17c16,17
+<         - name: blog-ghost-port
+<           containerPort: 2368
+---
+>         - name: blog-db-port
+>           containerPort: 3306
+19,27c19
+<         - name: database__client
+<           value: mysql
+<         - name: database__connection__host
+<           value: blog-db-svc
+<         - name: database__connection__port
+<           value: 8888
+<         - name: database__connection__user
+<           value: root
+<         - name: database__connection__password
+---
+>         - name: MYSQL_ROOT_PASSWORD
+33c25
+<   name: blog-ghost-svc
+---
+>   name: blog-db-svc
+37,38c29
+<     nodePort: 32001
+<     targetPort: blog-ghost-port
+---
+>     targetPort: blog-db-port
+41,42c32,33
+<     app: blog-ghost
+<   type: NodePort
+---
+>     app: blog-db
+>   type: ClusterIP
+\ No newline at end of file
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ diff blog-ghost.yml blog-db.yml
+4c4
+<   name: blog-ghost-dep
+---
+>   name: blog-db-dep
+10c10
+<         app: blog-ghost
+---
+>         app: blog-db
+13,14c13,14
+<       - name: ghost
+<         image: ghost:1-alpine
+---
+>       - name: db
+>         image: mysql:5.7
+16,17c16,17
+<         - name: ghost-port
+<           containerPort: 2368
+---
+>         - name: blog-db-port
+>           containerPort: 3306
+19,27c19
+<         - name: database__client
+<           value: mysql
+<         - name: database__connection__host
+<           value: blog-db-svc
+<         - name: database__connection__port
+<           value: 8888
+<         - name: database__connection__user
+<           value: root
+<         - name: database__connection__password
+---
+>         - name: MYSQL_ROOT_PASSWORD
+33c25
+<   name: blog-ghost-svc
+---
+>   name: blog-db-svc
+37,38c29
+<     nodePort: 32001
+<     targetPort: blog-ghost-port
+---
+>     targetPort: blog-db-port
+41,42c32,33
+<     app: blog-ghost
+<   type: NodePort
+---
+>     app: blog-db
+>   type: ClusterIP
+\ No newline at end of file
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-ghost.yml
+service "blog-ghost-svc" unchanged
+Error from server (BadRequest): error when creating "blog-ghost.yml": Deployment in version "v1 eta1" cannot be handled as a Deployment: v1beta1.Deployment: Spec: v1beta1.DeploymentSpec: Temp ate: v1.PodTemplateSpec: Spec: v1.PodSpec: Containers: []v1.Container: v1.Container: Env: []v1. nvVar: v1.EnvVar: Value: ReadString: expects " or n, parsing 1140 ...,"value":8... at {"apiVers on":"extensions/v1beta1","kind":"Deployment","metadata":{"annotations":{"kubectl.kubernetes.io/ ast-applied-configuration":"{\"apiVersion\":\"extensions/v1beta1\",\"kind\":\"Deployment\",\"me adata\":{\"annotations\":{},\"name\":\"blog-ghost-dep\",\"namespace\":\"default\"},\"spec\":{\" eplicas\":1,\"template\":{\"metadata\":{\"labels\":{\"app\":\"blog-ghost\"}},\"spec\":{\"contai ers\":[{\"env\":[{\"name\":\"database__client\",\"value\":\"mysql\"},{\"name\":\"database__conn ction__host\",\"value\":\"blog-db-svc\"},{\"name\":\"database__connection__port\",\"value\":888 },{\"name\":\"database__connection__user\",\"value\":\"root\"},{\"name\":\"database__connection _password\",\"value\":\"welcome\"}],\"image\":\"ghost:1-alpine\",\"name\":\"ghost\",\"ports\":[ \"containerPort\":2368,\"name\":\"ghost-port\"}]}]}}}}\n"},"name":"blog-ghost-dep","namespace": default"},"spec":{"replicas":1,"template":{"metadata":{"labels":{"app":"blog-ghost"}},"spec":{" ontainers":[{"env":[{"name":"database__client","value":"mysql"},{"name":"database__connection__ ost","value":"blog-db-svc"},{"name":"database__connection__port","value":8888},{"name":"databas __connection__user","value":"root"},{"name":"database__connection__password","value":"welcome"} ,"image":"ghost:1-alpine","name":"ghost","ports":[{"containerPort":2368,"name":"ghost-port"}]}] }}}
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-ghost.yml
+deployment "blog-ghost-dep" created
+service "blog-ghost-svc" unchanged
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get deploy
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+blog-db-dep      1         1         1            1           11m
+blog-ghost-dep   1         1         1            1           2m
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get rs
+NAME                       DESIRED   CURRENT   READY     AGE
+blog-db-dep-7ff87fcccf     1         1         1         11m
+blog-ghost-dep-c6476b976   1         1         1         2m
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get pods
+NAME                             READY     STATUS    RESTARTS   AGE
+blog-db-dep-7ff87fcccf-x6899     1/1       Running   0          11m
+blog-ghost-dep-c6476b976-6jrft   1/1       Running   0          2m
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get svc
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+blog-db-svc      ClusterIP   10.100.88.167   <none>        8888/TCP         12m
+blog-ghost-svc   NodePort    10.109.31.136   <none>        8888:32001/TCP   7m
+hw-svc           NodePort    10.110.144.92   <none>        8888:31001/TCP   23h
+kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP          156d
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ minikube ip
+There is a newer version of minikube available (v1.0.1).  Download it here:
+https://github.com/kubernetes/minikube/releases/tag/v1.0.1
+
+To disable this notification, run the following:
+minikube config set WantUpdateNotification false
+192.168.99.128
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ ping 192.168.99.128
+
+Pinging 192.168.99.128 with 32 bytes of data:
+Reply from 192.168.99.128: bytes=32 time<1ms TTL=64
+Reply from 192.168.99.128: bytes=32 time<1ms TTL=64
+
+Ping statistics for 192.168.99.128:
+    Packets: Sent = 2, Received = 2, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+Control-C
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get svc
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+blog-db-svc      ClusterIP   10.100.88.167   <none>        8888/TCP         14m
+blog-ghost-svc   NodePort    10.109.31.136   <none>        8888:32001/TCP   9m
+hw-svc           NodePort    10.110.144.92   <none>        8888:31001/TCP   23h
+kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP          156d
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl describe svc blog-ghost-svc
+Name:                     blog-ghost-svc
+Namespace:                default
+Labels:                   <none>
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1"," ind":"Service","metadata":{"annotations":{},"name":"blog-ghost-svc","namespace":"default"},"spe ":{"ports":[{"nodePort":32001,"por...
+Selector:                 app=blog-ghost
+Type:                     NodePort
+IP:                       10.109.31.136
+Port:                     <unset>  8888/TCP
+TargetPort:               blog-ghost-port/TCP
+NodePort:                 <unset>  32001/TCP
+Endpoints:                <none>
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get pods -o wide
+NAME                             READY     STATUS    RESTARTS   AGE       IP           NODE
+blog-db-dep-7ff87fcccf-x6899     1/1       Running   0          15m       172.17.0.7   minikube blog-ghost-dep-c6476b976-6jrft   1/1       Running   0          5m        172.17.0.6   minikube Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get pods --show-labesl
+Error: unknown flag: --show-labesl
+
+
+Examples:
+  # List all pods in ps output format.
+  kubectl get pods
+
+  # List all pods in ps output format with more information (such as node name).
+  kubectl get pods -o wide
+
+  # List a single replication controller with specified NAME in ps output format.
+  kubectl get replicationcontroller web
+
+  # List a single pod in JSON output format.
+  kubectl get -o json pod web-pod-13je7
+
+  # List a pod identified by type and name specified in "pod.yaml" in JSON output format.
+  kubectl get -f pod.yaml -o json
+
+  # Return only the phase value of the specified pod.
+  kubectl get -o template pod/web-pod-13je7 --template={{.status.phase}}
+
+  # List all replication controllers and services together in ps output format.
+  kubectl get rc,services
+
+  # List one or more resources by their type and names.
+  kubectl get rc/web service/frontend pods/web-pod-13je7
+
+  # List all resources with different types.
+  kubectl get all
+
+Options:
+      --all-namespaces=false: If present, list the requested object(s) across all namespaces. N mespace in current context is ignored even if specified with --namespace.
+      --allow-missing-template-keys=true: If true, ignore any errors in templates when a field
+r map key is missing in the template. Only applies to golang and jsonpath output formats.
+      --chunk-size=500: Return large lists in chunks rather than all at once. Pass 0 to disable  This flag is beta and may change in the future.
+      --export=false: If true, use 'export' for the resources.  Exported resources are stripped of cluster-specific information.
+      --field-selector='': Selector (field query) to filter on, supports '=', '==', and '!='.(e g. --field-selector key1=value1,key2=value2). The server only supports a limited number of fiel  queries per type.
+  -f, --filename=[]: Filename, directory, or URL to files identifying the resource to get from
+ server.
+      --ignore-not-found=false: If the requested object does not exist the command will return
+xit code 0.
+      --include-extended-apis=true: If true, include definitions of new APIs via calls to the A I server. [default true]
+      --include-uninitialized=false: If true, the kubectl command applies to uninitialized obje ts. If explicitly set to false, this flag overrides other flags that make the kubectl commands
+pply to uninitialized objects, e.g., "--all". Objects with empty metadata.initializers are rega ded as initialized.
+  -L, --label-columns=[]: Accepts a comma separated list of labels that are going to be present d as columns. Names are case-sensitive. You can also use multiple flag options like -L label1 -  label2...
+      --no-headers=false: When using the default or custom-column output format, don't print he ders (default print headers).
+  -o, --output='': Output format. One of: json|yaml|wide|name|custom-columns=...|custom-columns file=...|go-template=...|go-template-file=...|jsonpath=...|jsonpath-file=... See custom columns [http://kubernetes.io/docs/user-guide/kubectl-overview/#custom-columns], golang template [http: /golang.org/pkg/text/template/#pkg-overview] and jsonpath template [http://kubernetes.io/docs/u er-guide/jsonpath].
+      --raw='': Raw URI to request from the server.  Uses the transport specified by the kubeco fig file.
+  -R, --recursive=false: Process the directory used in -f, --filename recursively. Useful when
+ou want to manage related manifests organized within the same directory.
+  -l, --selector='': Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)
+  -a, --show-all=false: When printing, show all resources (default hide terminated pods.)
+      --show-kind=false: If present, list the resource type for the requested object(s).
+      --show-labels=false: When printing, show all labels as the last column (default hide labe s column)
+      --sort-by='': If non-empty, sort list types using this field specification.  The field sp cification is expressed as a JSONPath expression (e.g. '{.metadata.name}'). The field in the AP  resource specified by this JSONPath expression must be an integer or a string.
+      --template='': Template string or path to template file to use when -o=go-template, -o=go template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pk -overview].
+      --use-openapi-print-columns=true: If true, use x-kubernetes-print-column metadata (if pre ent) from the OpenAPI schema for displaying a resource.
+  -w, --watch=false: After listing/getting the requested object, watch for changes. Uninitializ d objects are excluded if no object name is provided.
+      --watch-only=false: Watch for changes to the requested object(s), without listing/getting first.
+
+Usage:
+  kubectl get [(-o|--output=)json|yaml|wide|custom-columns=...|custom-columns-file=...|go-templ te=...|go-template-file=...|jsonpath=...|jsonpath-file=...] (TYPE [NAME | -l label] | TYPE/NAME ...) [flags] [options]
+
+Use "kubectl options" for a list of global command-line options (applies to all commands).
+
+error: unknown flag: --show-labesl
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get pods --show-labels
+NAME                             READY     STATUS    RESTARTS   AGE       LABELS
+blog-db-dep-7ff87fcccf-x6899     1/1       Running   0          15m       app=blog-db,pod-templ te-hash=3994397779
+blog-ghost-dep-c6476b976-6jrft   1/1       Running   0          5m        app=blog-ghost,pod-te plate-hash=720326532
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-db.yml
+deployment "blog-db-dep" unchanged
+service "blog-db-svc" unchanged
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-ghost.yml.yml
+error: the path "blog-ghost.yml.yml" does not exist
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl apply -f blog-ghost.yml
+deployment "blog-ghost-dep" configured
+service "blog-ghost-svc" unchanged
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl describe svc blog-ghost-svc
+Name:                     blog-ghost-svc
+Namespace:                default
+Labels:                   <none>
+Annotations:              kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1"," ind":"Service","metadata":{"annotations":{},"name":"blog-ghost-svc","namespace":"default"},"spe ":{"ports":[{"nodePort":32001,"por...
+Selector:                 app=blog-ghost
+Type:                     NodePort
+IP:                       10.109.31.136
+Port:                     <unset>  8888/TCP
+TargetPort:               blog-ghost-port/TCP
+NodePort:                 <unset>  32001/TCP
+Endpoints:                172.17.0.6:2368
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ kubectl get pods --show-labels
+NAME                              READY     STATUS    RESTARTS   AGE       LABELS
+blog-db-dep-7ff87fcccf-x6899      1/1       Running   0          17m       app=blog-db,pod-temp ate-hash=3994397779
+blog-ghost-dep-78b695896c-ms7bq   1/1       Running   0          50s       app=blog-ghost,pod-t mplate-hash=3462514527
+Dell lap@Dell ~/docker-workshop/may13/k8s/blog
+λ
