@@ -397,3 +397,153 @@ blog-db-dep-7ff87fcccf-x6899      1/1       Running   0          17m       app=b
 blog-ghost-dep-78b695896c-ms7bq   1/1       Running   0          50s       app=blog-ghost,pod-t mplate-hash=3462514527
 Dell lap@Dell ~/docker-workshop/may13/k8s/blog
 λ
+
+
+Dell lap@Dell ~/docker-workshop/may13/k8s/heapster
+λ ls
+grafana.yaml  heapster.yaml  influxdb.yaml
+Dell lap@Dell ~/docker-workshop/may13/k8s/heapster
+λ kubectl apply -f .
+deployment "monitoring-grafana" unchanged
+service "monitoring-grafana" configured
+serviceaccount "heapster" unchanged
+deployment "heapster" unchanged
+service "heapster" configured
+deployment "monitoring-influxdb" unchanged
+service "monitoring-influxdb" configured
+Dell lap@Dell ~/docker-workshop/may13/k8s/heapster
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s/heapster
+λ cd ../metricserver/
+Dell lap@Dell ~/docker-workshop/may13/k8s/metricserver
+λ kubectl apply -f .
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+clusterrolebinding "metrics-server:system:auth-delegator" configured
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+rolebinding "metrics-server-auth-reader" configured
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+apiservice "v1beta1.metrics.k8s.io" configured
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+serviceaccount "metrics-server" configured
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+deployment "metrics-server" configured
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+service "metrics-server" configured
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+clusterrole "system:metrics-server" configured
+Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
+clusterrolebinding "system:metrics-server" configured
+Dell lap@Dell ~/docker-workshop/may13/k8s/metricserver
+λ
+Dell lap@Dell ~/docker-workshop/may13/k8s/metricserver
+λ cd ..
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete hpa hpa-example
+Error from server (NotFound): horizontalpodautoscalers.autoscaling "hpa-example" not found
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE hpa-example-autoscaler   Deployment/hpa-example   0% / 75%   1         10        1          21d Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete hpa hpa-example-autoscaler
+horizontalpodautoscaler "hpa-example-autoscaler" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl apply -f autoscaling/pod-scale.yml
+deployment "hpa-example" created
+service "hpa-example" created
+horizontalpodautoscaler "hpa-example-autoscaler" created
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS           MINPODS   MAXPODS   REPLICAS
+   AGE
+hpa-example-autoscaler   Deployment/hpa-example   <unknown> / 75%   1         10        0
+   16s
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get svc
+NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)           AGE
+blog-db-svc      ClusterIP   10.100.88.167   <none>        8888/TCP          1h
+blog-ghost-svc   NodePort    10.109.31.136   <none>        8888:32001/TCP    1h
+hpa-example      NodePort    10.108.196.74   <none>        31999:31999/TCP   2m
+hw-svc           NodePort    10.110.144.92   <none>        8888:31001/TCP    1d
+kubernetes       ClusterIP   10.96.0.1       <none>        443/TCP           156d
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE hpa-example-autoscaler   Deployment/hpa-example   0% / 75%   1         10        1          3m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+blog-db-dep-7ff87fcccf-x6899      1/1       Running   0          1h
+blog-ghost-dep-78b695896c-ms7bq   1/1       Running   0          49m
+hpa-example-797dfdbc87-wb8fg      1/1       Running   0          3m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE hpa-example-autoscaler   Deployment/hpa-example   0% / 75%   1         10        1          3m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS     MINPODS   MAXPODS   REPLICAS   AGE
+
+hpa-example-autoscaler   Deployment/hpa-example   13% / 75%   1         10        1          4m Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE hpa-example-autoscaler   Deployment/hpa-example   0% / 75%   1         10        1          5m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE hpa-example-autoscaler   Deployment/hpa-example   0% / 75%   1         10        1          5m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS      MINPODS   MAXPODS   REPLICAS   AGE
+hpa-example-autoscaler   Deployment/hpa-example   154% / 75%   1         10        3          7m
+
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS    RESTARTS   AGE
+blog-db-dep-7ff87fcccf-x6899      1/1       Running   0          1h
+blog-ghost-dep-78b695896c-ms7bq   1/1       Running   0          53m
+hpa-example-797dfdbc87-csxj2      1/1       Running   0          1m
+hpa-example-797dfdbc87-wb8fg      1/1       Running   0          7m
+hpa-example-797dfdbc87-z8v5g      1/1       Running   0          1m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl delete -f blog/
+deployment "blog-db-dep" deleted
+service "blog-db-svc" deleted
+deployment "blog-ghost-dep" deleted
+service "blog-ghost-svc" deleted
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get pods
+NAME                              READY     STATUS        RESTARTS   AGE
+blog-db-dep-7ff87fcccf-x6899      1/1       Terminating   0          1h
+blog-ghost-dep-78b695896c-ms7bq   0/1       Terminating   0          53m
+hpa-example-797dfdbc87-csxj2      1/1       Running       0          2m
+hpa-example-797dfdbc87-wb8fg      1/1       Running       0          8m
+hpa-example-797dfdbc87-z8v5g      1/1       Running       0          2m
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS     MINPODS   MAXPODS   REPLICAS   AGE
+
+hpa-example-autoscaler   Deployment/hpa-example   68% / 75%   1         10        3          8m Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS     MINPODS   MAXPODS   REPLICAS   AGE
+
+hpa-example-autoscaler   Deployment/hpa-example   74% / 75%   1         10        3          10m
+
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS     MINPODS   MAXPODS   REPLICAS   AGE
+
+hpa-example-autoscaler   Deployment/hpa-example   74% / 75%   1         10        3          11m
+
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS     MINPODS   MAXPODS   REPLICAS   AGE
+
+hpa-example-autoscaler   Deployment/hpa-example   74% / 75%   1         10        3          11m
+
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS     MINPODS   MAXPODS   REPLICAS   AGE
+
+hpa-example-autoscaler   Deployment/hpa-example   74% / 75%   1         10        3          11m
+
+Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE hpa-example-autoscaler   Deployment/hpa-example   0% / 75%   1         10        2          13m Dell lap@Dell ~/docker-workshop/may13/k8s
+λ kubectl get hpa
+NAME                     REFERENCE                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE hpa-example-autoscaler   Deployment/hpa-example   0% / 75%   1         10        2          13m Dell lap@Dell ~/docker-workshop/may13/k8s
+λ
